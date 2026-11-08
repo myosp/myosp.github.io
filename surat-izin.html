@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#faf9f5">
-<meta name="description" content="Buat surat izin keluar saat jam kerja untuk dosen dan PLP OSP."><title>Surat Izin — myOSP</title>
+<meta name="description" content="Buat surat izin keluar saat jam kerja untuk dosen dan PLP OSP."><title>Surat Izin Keluar (Hari Kerja) — myOSP</title>
 <link rel="icon" href="assets/myosp-icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="surat-cuti.css"><link rel="stylesheet" href="surat-izin.css">
 <script src="assets/vendor/jspdf/jspdf.umd.min.js" defer></script><script src="surat-izin.js" defer></script>
 </head>
@@ -10,7 +10,7 @@
 <a class="skip" href="#pemohon">Langsung ke formulir</a>
 <header class="header"><div class="wrap nav"><a class="brand" href="./" aria-label="myOSP, beranda"><img class="brand-mark" src="assets/myosp-icon.svg" alt="" width="38" height="38"><span><span class="brand-name"><b>my</b>OSP</span><span class="brand-label">Otomasi Sistem Permesinan</span></span></a><nav aria-label="Navigasi utama"><a href="./#tools">← Beranda</a></nav></div></header>
 <main class="wrap leave-layout">
-<section class="leave-editor" aria-labelledby="title"><p class="eyebrow section-index">ADMINISTRASI / SURAT IZIN</p><h1 id="title">Bikin surat izin,<br><em>lebih sat set.</em></h1><p class="leave-intro">Untuk izin keluar saat jam kerja, sendiri atau bersama tim.</p>
+<section class="leave-editor" aria-labelledby="title"><p class="eyebrow section-index">ADMINISTRASI / SURAT IZIN KELUAR</p><h1 id="title">Surat Izin Keluar<br><em>(Hari Kerja)</em></h1><p class="leave-intro">Untuk izin keluar saat jam kerja, sendiri atau bersama tim.</p>
 <div id="load-error" class="load-error" role="alert" hidden><p>Data atau berkas surat belum bisa dimuat. Coba lagi, ya.</p><button type="button" class="secondary-button" id="retry">Muat ulang</button></div>
 <form id="form"><fieldset id="form-fields" disabled>
 <div class="field"><label for="pemohon">Nama pemohon / perwakilan <span aria-hidden="true">*</span></label><div class="person-combobox" id="pemohon-box"><div class="person-input-wrap"><input id="pemohon" type="search" placeholder="Cari nama dosen atau PLP" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="pemohon-results" required></div><div class="person-menu" hidden><ul id="pemohon-results" role="listbox" aria-label="Hasil pencarian pemohon"></ul><p role="status" hidden></p></div></div><p class="field-hint">Ketik nama, lalu pilih dari daftar.</p></div>
