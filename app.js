@@ -65,3 +65,44 @@ render();
 
 // SVG arrows stay legible even when the device lacks the Unicode glyph.
 document.querySelectorAll('span').forEach(el=>{if(el.textContent.trim()==='↗'){el.innerHTML=icon('arrow');}});
+
+// Keep the animated heading readable for assistive technology and reduced-motion users.
+(() => {
+ const display=document.querySelector('[data-typewriter]');
+ if(!display)return;
+ const words=['sat set','cepat','praktis'];
+ const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let index=0,letters=words[0].length,deleting=true,timer;
+ function step(){
+  if(motion.matches||document.hidden)return;
+  const current=words[index];
+  if(deleting){
+   letters--;
+   display.textContent=current.slice(0,letters);
+   if(letters===0){index=(index+1)%words.length;deleting=false;timer=setTimeout(step,300);}
+   else timer=setTimeout(step,65);
+  }else{
+   letters++;
+   display.textContent=words[index].slice(0,letters);
+   if(letters===words[index].length){deleting=true;timer=setTimeout(step,2400);}
+   else timer=setTimeout(step,110);
+  }
+ }
+ function reset(){clearTimeout(timer);index=0;letters=words[0].length;deleting=true;display.textContent=words[0];if(!motion.matches&&!document.hidden)timer=setTimeout(step,2600);}
+ if(motion.addEventListener)motion.addEventListener('change',reset);else motion.addListener(reset);
+ document.addEventListener('visibilitychange',reset);
+ reset();
+})();
+
+// Move the illustration slightly slower than the page during scrolling.
+(() => {
+ const illustration=document.querySelector('.home-illustration');
+ if(!illustration)return;
+ const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let frame=0;
+ function paint(){frame=0;if(motion.matches){illustration.style.removeProperty('--hero-parallax');return;}illustration.style.setProperty('--hero-parallax',`${Math.min(window.scrollY*.06,18).toFixed(1)}px`);}
+ function schedule(){if(!frame)frame=requestAnimationFrame(paint);}
+ window.addEventListener('scroll',schedule,{passive:true});
+ if(motion.addEventListener)motion.addEventListener('change',schedule);else motion.addListener(schedule);
+ schedule();
+})();
