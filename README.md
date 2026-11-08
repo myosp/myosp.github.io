@@ -17,6 +17,7 @@ Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, at
 - `index.html`: beranda, bagian tautan penting, dan dialog.
 - `styles.css`: tema terang, layout responsif, dan motion dengan dukungan `prefers-reduced-motion`.
 - `app.js`: katalog tools, pencarian, kategori, favorit, dan interaksi keyboard.
+- `dosen.js` dan `dosen.css`: fungsi dan tampilan bersama untuk data dosen dan PLP.
 - `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
 
 Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Cuti tersedia di `surat-cuti.html`; Surat Izin masih dalam perencanaan dan kartunya membuka penjelasan rencana. Kategori Link Penting belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
@@ -68,3 +69,9 @@ Buka `surat-cuti.html` untuk membuat permohonan izin tidak masuk kerja atau cuti
 Penandatangan sebagai atasan langsung ditetapkan `Ir. Mutmainnah, S.T., M.T.` dengan NIP `198805112018012001`, identitasnya diambil dari daftar dosen menggunakan NIP agar penulisan namanya selalu konsisten. Kop surat berasal dari berkas contoh yang diberikan pengguna. Surat menyertakan catatan penyerahan ke Kabag Kepegawaian seperti pada contoh.
 
 Tombol **Unduh PDF** membuat PDF teks A4 satu halaman secara lokal; **Cetak** membuka dialog cetak browser dengan ukuran A4. Teks panjang menggunakan jarak yang lebih ringkas agar tetap muat. Data formulir tidak dikirim ke server atau disimpan. Generator menggunakan `jsPDF` 4.2.1 yang disertakan lokal beserta lisensinya, serta font Liberation Sans dengan lisensi di `assets/fonts/`. Tidak ada langkah build atau koneksi eksternal saat digunakan.
+
+## Data PLP OSP
+
+Halaman `plp.html` membaca data dari `assets/data/plp.json` dan mengurutkannya berdasarkan nama. Setiap orang memiliki tombol copy untuk nama dan gelar, NIP, dan email. NIP disimpan sebagai string; spasi pemisah dari daftar sumber dihapus tanpa mengubah angkanya. Email yang tidak tersedia dibiarkan kosong dan tidak memiliki tombol copy.
+
+Perbarui data melalui `assets/data/plp.json`; isi email dengan string kosong jika belum tersedia. Halaman ini memakai fungsi pencarian, clipboard, dan fallback salin manual yang sama dengan Data Dosen OSP.

@@ -1,5 +1,7 @@
 'use strict';
 (() => {
+  const isPlp = document.body.dataset.directory === 'plp';
+  const directoryLabel = isPlp ? 'PLP' : 'dosen';
   const grid = document.querySelector('#lecturer-grid');
   const search = document.querySelector('#lecturer-search');
   const filter = document.querySelector('#expertise-filter');
@@ -47,11 +49,15 @@
     name.append(title);
     heading.append(name, copyButton(index, 'name', false));
     const fields = el('dl', 'lecturer-fields');
-    for (const key of ['nip', 'nidn', 'expertise', 'email']) {
-      const field = el('div', `lecturer-field ${key}${['expertise', 'email'].includes(key) ? ' full-width' : ''}`);
+    for (const key of (isPlp ? ['nip', 'email'] : ['nip', 'nidn', 'expertise', 'email'])) {
+      const field = el('div', `lecturer-field ${key}${isPlp || ['expertise', 'email'].includes(key) ? ' full-width' : ''}`);
       field.append(el('dt', '', key === 'expertise' ? 'Bidang keilmuan' : key === 'email' ? 'Email' : labels[key]));
       const value = el('dd');
-      value.append(copyButton(index, key));
+      if (key === 'email' && !person.email) {
+        const blank = el('span', 'empty-value');
+        blank.append(el('span', 'sr-only', 'Email belum tersedia'));
+        value.append(blank);
+      } else value.append(copyButton(index, key));
       field.append(value);
       fields.append(field);
     }
@@ -60,7 +66,7 @@
   }
   function render() {
     const words = search.value.trim().toLocaleLowerCase('id').split(/\s+/).filter(Boolean);
-    const selected = filter.value;
+    const selected = filter?.value || '';
     const fragment = document.createDocumentFragment();
     let visible = 0;
     lecturers.forEach((person, index) => {
@@ -73,26 +79,30 @@
     grid.replaceChildren(fragment);
     empty.hidden = visible > 0;
     reset.hidden = !words.length && !selected;
-    count.textContent = `Menampilkan ${visible} dari ${lecturers.length} dosen`;
+    count.textContent = `Menampilkan ${visible} dari ${lecturers.length} ${directoryLabel}`;
   }
   async function load() {
-    search.disabled = true; filter.disabled = true;
+    search.disabled = true; if (filter) filter.disabled = true;
     grid.setAttribute('aria-busy', 'true');
     loadError.hidden = true; empty.hidden = true;
-    count.textContent = 'Memuat data dosen…';
+    count.textContent = `Memuat data ${directoryLabel}…`;
     const abort = new AbortController();
     const timeout = setTimeout(() => abort.abort(), 12000);
     try {
-      const response = await fetch('assets/data/dosen.json', { cache: 'no-cache', signal: abort.signal });
+      const response = await fetch(isPlp ? 'assets/data/plp.json' : 'assets/data/dosen.json', { cache: 'no-cache', signal: abort.signal });
       if (!response.ok) throw Error('Data tidak tersedia.');
       const data = await response.json();
-      if (!Array.isArray(data) || !data.length || data.some(person => !person || Object.keys(labels).some(key => typeof person[key] !== 'string' || !person[key].trim()))) throw Error('Format data tidak valid.');
-      lecturers = data;
+      const required = isPlp ? ['name', 'nip'] : Object.keys(labels);
+      if (!Array.isArray(data) || !data.length || data.some(person => !person || required.some(key => typeof person[key] !== 'string' || !person[key].trim()) || (isPlp && person.email != null && typeof person.email !== 'string'))) throw Error('Format data tidak valid.');
+      lecturers = isPlp ? data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => a.name.localeCompare(b.name, 'id', { sensitivity: 'base', numeric: true })) : data;
       document.querySelector('.directory-total strong').textContent = String(data.length);
-      filter.replaceChildren(new Option('Semua bidang keilmuan', ''));
-      const expertise = [...new Set(data.map(person => person.expertise))].sort((a, b) => a.localeCompare(b, 'id'));
-      expertise.forEach(value => filter.add(new Option(value, value)));
-      search.disabled = false; filter.disabled = false;
+      if (filter) {
+        filter.replaceChildren(new Option('Semua bidang keilmuan', ''));
+        const expertise = [...new Set(data.map(person => person.expertise))].sort((a, b) => a.localeCompare(b, 'id'));
+        expertise.forEach(value => filter.add(new Option(value, value)));
+        filter.disabled = false;
+      }
+      search.disabled = false;
       render();
     } catch {
       grid.replaceChildren(); loadError.hidden = false; reset.hidden = true;
@@ -146,9 +156,9 @@
       manualValue.focus(); manualValue.select();
     }
   });
-  function resetFilters() { search.value = ''; filter.value = ''; render(); search.focus(); }
+  function resetFilters() { search.value = ''; if (filter) filter.value = ''; render(); search.focus(); }
   search.addEventListener('input', render);
-  filter.addEventListener('change', render);
+  filter?.addEventListener('change', render);
   reset.addEventListener('click', resetFilters);
   document.querySelector('#show-all').addEventListener('click', resetFilters);
   document.querySelector('#retry-load').addEventListener('click', load);

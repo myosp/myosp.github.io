@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf9f5">
+  <meta name="description" content="Data PLP OSP Politeknik ATI Makassar. Copy nama dan gelar, NIP, atau email secara terpisah.">
+  <title>Data PLP OSP — myOSP</title>
+  <link rel="icon" href="assets/myosp-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="dosen.css">
+  <script src="dosen.js" defer></script>
+</head>
+<body data-directory="plp">
+  <a class="skip" href="#lecturer-search">Langsung ke pencarian PLP</a>
+  <header class="header"><div class="wrap nav"><a class="brand" href="./" aria-label="myOSP, beranda"><img class="brand-mark" src="assets/myosp-icon.svg" alt="" width="38" height="38"><span><span class="brand-name"><b>my</b>OSP</span><span class="brand-label">Otomasi Sistem Permesinan</span></span></a><nav aria-label="Navigasi utama"><a href="./#tools">← Beranda</a></nav></div></header>
+  <main class="wrap directory">
+    <section class="directory-heading" aria-labelledby="directory-title"><div><p class="eyebrow section-index">DATA JURUSAN</p><h1 id="directory-title">Data PLP <em>OSP</em></h1><p class="directory-intro">Cari dan copy data PLP OSP untuk kebutuhan administrasi.</p></div><div class="directory-total"><strong>7</strong><span>PLP</span></div></section>
+    <div class="copy-instruction"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><p>Tekan tombol copy di samping data yang kamu butuhkan.</p></div>
+    <section class="directory-controls single-filter" aria-label="Pencarian PLP"><div class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><label class="sr-only" for="lecturer-search">Cari nama, NIP, atau email</label><input id="lecturer-search" type="search" placeholder="Cari nama, NIP, atau email" autocomplete="off" aria-controls="lecturer-grid" disabled><kbd aria-hidden="true">/</kbd></div></section>
+    <div class="directory-meta"><p id="lecturer-count" role="status">Memuat data PLP…</p><button id="reset-directory" class="text-button" type="button" hidden>Hapus pencarian</button></div>
+    <section id="lecturer-grid" class="lecturer-grid" aria-label="Daftar PLP" aria-busy="true"></section>
+    <section class="empty-state" id="no-lecturers" hidden><h2>Data PLP nggak ketemu</h2><p>Coba kata kunci lain.</p><button class="text-button" id="show-all" type="button">Lihat semua PLP</button></section>
+    <section class="directory-error" id="directory-error" role="alert" hidden><h2>Data belum dapat dimuat</h2><p>Periksa koneksi Anda, lalu coba kembali.</p><button id="retry-load" type="button" class="primary-button">Muat ulang data</button></section>
+  </main>
+  <footer class="wrap footer"><div><a class="footer-brand" href="./">myOSP</a><p>D3 Otomasi Sistem Permesinan · Politeknik ATI Makassar</p></div><a class="text-button" href="./#tools">Kembali ke beranda</a></footer>
+  <dialog id="manual-copy" aria-labelledby="manual-copy-title"><div class="dialog-content"><div class="dialog-top"><h2 id="manual-copy-title">Salin data</h2><button class="icon-button close-button" id="close-manual" aria-label="Tutup dialog">×</button></div><p>Penyalinan otomatis tidak tersedia. Pilih teks berikut, lalu gunakan menu Salin atau Ctrl/Cmd+C.</p><label id="manual-copy-label" for="manual-copy-value"></label><textarea id="manual-copy-value" rows="3" readonly></textarea><button id="select-manual" class="primary-button" type="button">Pilih teks</button></div></dialog>
+  <div id="directory-toast" class="toast" role="status"></div>
+  <noscript><p class="noscript">Aktifkan JavaScript untuk menampilkan dan menyalin data PLP. <a href="assets/data/plp.json">Lihat data dalam format JSON</a>.</p></noscript>
+</body>
+</html>
