@@ -12,10 +12,6 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
- {id:'ambil-halaman-pdf',name:'Ambil Halaman PDF',href:'ambil-pdf.html',category:'utilitas',icon:'document',tone:'lavender',description:'Ambil halaman PDF yang dibutuhkan.'},
- {id:'isi-ttd-pdf',name:'Isi & Tanda Tangan PDF',href:'edit-pdf.html',category:'utilitas',icon:'document',tone:'lavender',description:'Tambah teks dan tanda tangan ke PDF.'},
- {id:'kecilin-pdf',name:'Kecilin File PDF',href:'kecilin-pdf.html',category:'utilitas',icon:'document',tone:'sage',description:'Kecilkan ukuran PDF sesuai kebutuhan.'},
- {id:'gabung-pdf',name:'Gabungin File PDF',href:'gabung-pdf.html',category:'utilitas',icon:'document',tone:'peach',description:'Gabungkan beberapa PDF jadi satu.'},
  {id:'surat-izin',name:'Surat Izin Keluar (Hari Kerja)',href:'surat-izin.html',category:'administrasi',icon:'document',tone:'peach',description:'Izin keluar, sendiri atau bersama tim.'},
  {id:'surat-cuti',name:'Surat Cuti',href:'surat-cuti.html',category:'administrasi',icon:'calendar',tone:'sage',description:'Isi data, unduh PDF, atau langsung cetak.'},
  {id:'qr-generator',name:'QR Code Generator',href:'qr-generator.html',category:'utilitas',icon:'qr',tone:'lavender',description:'Ubah link jadi kode QR, lalu unduh.'},
