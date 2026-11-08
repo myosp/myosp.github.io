@@ -37,7 +37,7 @@ button.addEventListener('click',async()=>{
   if(original.length >= target) { for(let i=0;i<profiles.length;i++) { const candidate=await makePdf(pdfDocument,profiles[i],i+1); if(candidate.length < best.length) {best=candidate;rasterized=true;} if(best.length < target) break; } }
   const achieved=best.length < target; resultUrl=URL.createObjectURL(new Blob([best],{type:'application/pdf'})); $('#view').href=resultUrl; $('#download').href=resultUrl;
   $('#result-size').textContent=`Ukuran awal ${format(original.length)} → hasil ${format(best.length)}.`;
-  $('#result-note').textContent=original.length < target ? 'File awal sudah memenuhi target, jadi tidak perlu dikompresi.' : achieved ? 'Target tercapai. Buka hasil dan periksa keterbacaannya.' : 'Target belum tercapai. Ini hasil terkecil yang bisa dibuat; periksa keterbacaannya.';
+  $('#result-note').textContent=original.length < target ? 'File awal sudah memenuhi target, jadi tidak perlu dikompresi.' : achieved ? 'Target tercapai. Buka hasil dan periksa keterbacaannya.' : 'Target belum tercapai. Coba pisahkan PDF atau pilih target lebih besar. Periksa keterbacaan hasil.';
   if(rasterized) $('#result-note').textContent+=' Halaman diubah menjadi gambar; teks tidak bisa dicari atau disalin.';
   else if(original.length >= target) $('#result-note').textContent+=' File asli dipertahankan karena hasil kompresi tidak lebih kecil.';
   result.hidden=false; status.textContent='Selesai.';

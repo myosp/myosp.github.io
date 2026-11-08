@@ -1,77 +1,29 @@
 # myOSP
 
-Portal aplikasi dan utilitas pendukung administrasi untuk dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.
+Portal tools dan informasi untuk dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.
 
-## Menjalankan secara lokal
-
-Dari direktori repository:
+## Jalankan secara lokal
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, atau langkah build. Gunakan checkout yang tersedia; tidak perlu membuat Git worktree.
+Buka `http://localhost:8000`. Situs ini statis dan tidak memerlukan instalasi atau proses build.
 
-## Struktur
+## Fitur
 
-- `index.html`: beranda, bagian tautan penting, dan dialog.
-- `styles.css`: tema terang, layout responsif, dan motion dengan dukungan `prefers-reduced-motion`.
-- `app.js`: katalog tools, pencarian, kategori, favorit, dan interaksi keyboard.
-- `dosen.js` dan `dosen.css`: fungsi dan tampilan bersama untuk data dosen dan PLP.
-- `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
+- Data dosen dan PLP: cari, salin, dan unduh data Excel.
+- Surat cuti dan surat izin keluar: isi formulir, unduh PDF, atau cetak.
+- QR Code Generator.
+- PDF: gabungkan, kecilkan, tambahkan teks atau tanda tangan, dan ambil halaman.
+- Kategori PROMPT DEWA dan Link Penting siap diisi.
 
-Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Cuti tersedia di `surat-cuti.html`; Surat Izin tersedia di `surat-izin.html` untuk izin keluar perorangan atau tim. Kategori Link Penting belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
+Formulir dan file PDF diproses di perangkat melalui browser. PDF terkunci perlu dibuka terlebih dahulu. Hasil kompresi dapat mengubah halaman menjadi gambar, sehingga teksnya tidak dapat dicari atau disalin. Periksa hasil sebelum digunakan.
 
-Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
+## Pemeliharaan
 
-## Pemeriksaan manual
+- `app.js`: daftar dan kategori tools di beranda.
+- `assets/data/dosen.json` dan `assets/data/plp.json`: data dosen dan PLP. Simpan NIP dan NIDN sebagai string agar angkanya tetap utuh.
+- `assets/vendor/`: pustaka lokal dan lisensinya.
 
-- Cari nama tool; pastikan kategori dan pencarian bekerja bersamaan. Uji hasil kosong dan tombol reset.
-- Simpan favorit, pilih kategori Favorit saya, dan muat ulang untuk memeriksa persistensi.
-- Buka kartu atau Tentang; tutup dengan tombol atau Escape dan periksa fokus kembali.
-- Tekan `/` atau `Ctrl/Cmd+K` untuk menuju pencarian. Semua kontrol dapat dijangkau dengan Tab.
-- Periksa layar HP, tablet, dan desktop serta pengaturan sistem untuk mengurangi animasi.
-
-## GitHub Pages
-
-Situs siap disajikan langsung dari root repository. Setelah perubahan digabungkan atau didorong ke `main`, atur **Settings → Pages → Deploy from a branch → main / (root)** bila belum aktif. File `.nojekyll` memastikan aset statis disajikan langsung. Deployment tidak dilakukan otomatis oleh proses pengembangan lokal.
-
-Gaya visual mengikuti referensi fadhlyid.github.io: Inter, Source Serif 4, latar krem, dan terracotta. myOSP tidak berafiliasi dengan Anthropic.
-
-## QR Code Generator
-
-Buka `qr-generator.html` melalui server lokal. Masukkan tautan HTTP(S); awalan HTTPS ditambahkan untuk alamat tanpa protokol. Pratinjau awal adalah contoh dan tidak dapat diunduh sebelum pengguna memasukkan tautan.
-
-- Unduhan PNG berukuran 1088 × 1200 piksel, termasuk bingkai dan label SCAN ME.
-- Penyalinan PNG memerlukan HTTPS atau localhost dan dukungan Clipboard API. Bila akses ditolak, gunakan Unduh PNG.
-- Logo kampus dimuat otomatis dari `assets/logo-campus-qr.webp`. Versi ini hanya menghapus margin transparan dari `assets/logo-campus.webp`, tanpa mengubah piksel pada lambang. Tidak ada pengaturan atau unggahan logo pada halaman generator. Logo berasal dari berkas PNG yang diberikan pengguna dan dikonversi ke WebP lossless: 28.214 → 15.880 byte, dengan piksel RGBA identik.
-- QR menggunakan tingkat koreksi kesalahan H, margin putih, dan logo dengan ukuran terbatas untuk menjaga keterbacaan. Pindai hasil unduhan sebelum distribusi.
-- Tautan dibatasi 900 byte setelah normalisasi. Tidak ada pelacakan atau pengalihan melalui server myOSP.
-
-Library `qr-code-styling` 1.9.2 disertakan secara lokal di `assets/vendor/qr-code-styling/`. Bundle berasal dari paket npm resmi dan menyertakan `qrcode-generator`. Lisensi keduanya disertakan. Aplikasi tetap statis, tanpa instalasi paket atau proses build.
-
-Pemeriksaan browser yang dilakukan: tautan dari beranda, penambahan HTTPS, validasi URL, decoding QR dengan decoder independen jsQR (tautan pendek, parameter, tautan panjang, dan logo berwarna), pemuatan logo kampus otomatis, unduhan PNG, Clipboard API, serta layout pada lebar 320–1440 piksel.
-
-## Data Dosen OSP
-
-Halaman `dosen.html` memuat 17 identitas dosen dari `assets/data/dosen.json`, sesuai daftar yang diberikan pengguna berdasarkan Proposal PKM 2025. Data tidak dinormalisasi atau dikoreksi secara otomatis. NIP dan NIDN disimpan sebagai **string** agar angka panjang serta nol di depan tetap utuh.
-
-Setiap kartu menyediakan lima tombol salin terpisah: nama dan gelar, NIP, NIDN, bidang keilmuan, dan email. Clipboard hanya berisi nilai yang dipilih, tanpa label atau baris tambahan. Pencarian mencakup kelima bagian dan dapat digabungkan dengan filter bidang keilmuan. Urutan dan nomor dosen mengikuti daftar sumber, termasuk ketika hasil difilter.
-
-Penyalinan menggunakan Clipboard API pada HTTPS/localhost, dengan fallback penyalinan browser. Jika keduanya tidak tersedia, dialog menyediakan teks yang sudah dipilih untuk disalin manual. Kegagalan pemuatan data menampilkan pesan dan tombol coba ulang.
-
-Untuk memperbarui identitas, edit nilai di `assets/data/dosen.json` berdasarkan konfirmasi pemilik data. Pertahankan ejaan, gelar, tanda baca, dan tipe string seluruh nomor identitas. Tidak ada backend atau instalasi tambahan yang diperlukan.
-
-## Surat Cuti
-
-Buka `surat-cuti.html` untuk membuat permohonan izin tidak masuk kerja atau cuti berdasarkan contoh formulir yang diberikan. Cari nama dosen atau PLP, pilih hasil yang muncul, isi alasan dan tanggal, lalu periksa pratinjau. Pencarian menampilkan maksimal lima hasil tanpa daftar panjang dan mendukung keyboard. NIP dan jabatan (Dosen atau PLP) otomatis masuk ke surat dari `assets/data/dosen.json` dan `assets/data/plp.json`; unit kerja tetap Politeknik ATI Makassar. Data otomatis tidak ditampilkan sebagai isian formulir. Tanggal surat otomatis memakai tanggal Makassar. Tanggal mulai, tanggal selesai, dan tanggal surat dapat diisi melalui tombol Hari ini.
-
-Penandatangan sebagai atasan langsung ditetapkan `Ir. Mutmainnah, S.T., M.T.` dengan NIP `198805112018012001`, identitasnya diambil dari daftar dosen menggunakan NIP agar penulisan namanya selalu konsisten. Kop surat berasal dari berkas contoh yang diberikan pengguna. Surat menyertakan catatan penyerahan ke Kabag Kepegawaian seperti pada contoh.
-
-Tombol **Unduh PDF** membuat PDF teks A4 satu halaman secara lokal; **Cetak** membuka dialog cetak browser dengan ukuran A4. Teks panjang menggunakan jarak yang lebih ringkas agar tetap muat. Data formulir tidak dikirim ke server atau disimpan. Generator menggunakan `jsPDF` 4.2.1 yang disertakan lokal beserta lisensinya, serta font Liberation Sans dengan lisensi di `assets/fonts/`. Tidak ada langkah build atau koneksi eksternal saat digunakan.
-
-## Data PLP OSP
-
-Halaman `plp.html` membaca data dari `assets/data/plp.json` dan mengurutkannya berdasarkan nama. Setiap orang memiliki tombol copy untuk nama dan gelar, NIP, dan email. NIP disimpan sebagai string; spasi pemisah dari daftar sumber dihapus tanpa mengubah angkanya. Email yang tidak tersedia dibiarkan kosong dan tidak memiliki tombol copy.
-
-Perbarui data melalui `assets/data/plp.json`; isi email dengan string kosong jika belum tersedia. Halaman ini memakai fungsi pencarian, clipboard, dan fallback salin manual yang sama dengan Data Dosen OSP.
+GitHub Pages menyajikan situs dari branch `main` dan direktori root. Favorit tersimpan di browser pengguna.
