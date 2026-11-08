@@ -3,8 +3,11 @@
   const form = document.querySelector('#leave-form');
   const fields = document.querySelector('#form-fields');
   const lecturer = document.querySelector('#nama-dosen');
-  const position = document.querySelector('#jabatan');
-  const unit = document.querySelector('#unit-kerja');
+  const personBox = document.querySelector('#person-combobox');
+  const personMenu = document.querySelector('#person-menu');
+  const personResults = document.querySelector('#person-results');
+  const personMessage = document.querySelector('#person-menu-message');
+  const clearPerson = document.querySelector('#clear-person');
   const start = document.querySelector('#tanggal-mulai');
   const end = document.querySelector('#tanggal-selesai');
   const reason = document.querySelector('#alasan');
@@ -16,9 +19,13 @@
   const sheet = document.querySelector('#letter-paper');
   const paperShell = document.querySelector('#paper-shell');
   const supervisor = { name: 'Ir. Mutmainnah, S.T., M.T.', nip: '198805112018012001' };
+  const fixedUnit = 'Politeknik ATI Makassar';
   const dateFormatter = new Intl.DateTimeFormat('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   const dateOnlyFormatter = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   let lecturers = [];
+  let selectedNip = '';
+  let suggestions = [];
+  let activeSuggestion = -1;
   let pdfAssets;
   let toastTimer;
 
@@ -41,7 +48,7 @@
   }
   function isRange() { return form.elements.period.value === 'range'; }
   function clean(value) { return value.trim().replace(/\s+/g, ' '); }
-  function selectedPerson() { return lecturers.find(person => person.nip === lecturer.value); }
+  function selectedPerson() { return lecturers.find(person => person.nip === selectedNip); }
   function leaveDates() {
     const first = displayDate(start.value);
     if (!first) return '';
@@ -51,11 +58,10 @@
   }
   function model() {
     const person = selectedPerson();
-    return { name: person?.name || '', nip: person?.nip || '', position: position.value ? `Dosen ${position.value}` : '', unit: clean(unit.value), dates: leaveDates(), reason: clean(reason.value), created: displayDate(created.value, false), createdIso: created.value };
+    return { name: person?.name || '', nip: person?.nip || '', position: person?.role || '', unit: fixedUnit, dates: leaveDates(), reason: clean(reason.value), created: displayDate(created.value, false), createdIso: created.value };
   }
   function setText(id, value, fallback) { document.querySelector(id).textContent = value || fallback; }
   function validateText() {
-    unit.setCustomValidity(unit.value && !clean(unit.value) ? 'Isi unit kerja.' : '');
     reason.setCustomValidity(reason.value && !clean(reason.value) ? 'Isi alasan izin atau cuti.' : '');
   }
   function validateRange() {
@@ -90,15 +96,14 @@
   function update() {
     syncPeriod(); validateText();
     const data = model();
-    setText('#preview-name', data.name, 'Nama dosen');
-    setText('#preview-position', data.position, 'Jabatan dosen');
+    setText('#preview-name', data.name, 'Nama pemohon');
+    setText('#preview-position', data.position, 'Jabatan');
     setText('#preview-unit', data.unit, 'Unit kerja');
     setText('#preview-period', data.dates, 'Tanggal izin');
     setText('#preview-reason', data.reason, 'Alasan izin atau cuti');
     setText('#preview-date', data.created, 'Tanggal dibuat');
-    setText('#preview-signature', data.name, 'Nama dosen');
+    setText('#preview-signature', data.name, 'Nama pemohon');
     document.querySelector('#preview-nip').textContent = data.nip ? `NIP. ${data.nip}` : 'NIP. —';
-    document.querySelector('#nip-hint').textContent = data.nip ? `NIP: ${data.nip}` : 'NIP terisi otomatis setelah nama dipilih.';
     document.querySelector('#mulai-day').textContent = displayDate(start.value);
     document.querySelector('#akhir-day').textContent = isRange() ? displayDate(end.value) : '';
     document.querySelector('#surat-day').textContent = displayDate(created.value);
@@ -117,17 +122,30 @@
     fields.disabled = true;
     loadError.hidden = true;
     try {
-      const response = await fetch('assets/data/dosen.json', { cache: 'no-cache' });
-      if (!response.ok) throw Error('Data tidak tersedia');
-      const data = await response.json();
-      if (!Array.isArray(data) || !data.length || data.some(person => typeof person.name !== 'string' || !person.name.trim() || typeof person.nip !== 'string' || !/^\d{18}$/.test(person.nip))) throw Error('Data dosen tidak valid');
-      const supervisorRecord = data.find(person => person.nip === supervisor.nip);
+      const paths = ['assets/data/dosen.json', 'assets/data/plp.json'];
+      const lists = await Promise.all(paths.map(async path => {
+        const response = await fetch(path, { cache: 'no-cache' });
+        if (!response.ok) throw Error('Data tidak tersedia');
+        const data = await response.json();
+        if (!Array.isArray(data) || !data.length || data.some(person => !person || typeof person.name !== 'string' || !person.name.trim() || typeof person.nip !== 'string' || !/^\d{18}$/.test(person.nip))) throw Error('Data pemohon tidak valid');
+        return data;
+      }));
+      const [dosen, plp] = lists;
+      const supervisorRecord = dosen.find(person => person.nip === supervisor.nip);
       if (!supervisorRecord) throw Error('Data atasan langsung tidak ditemukan');
+      const combined = [
+        ...dosen.map(person => ({ ...person, role: 'Dosen' })),
+        ...plp.map(person => ({ ...person, role: 'PLP' }))
+      ];
+      if (new Set(combined.map(person => person.nip)).size !== combined.length) throw Error('NIP pemohon tidak unik');
       supervisor.name = supervisorRecord.name;
       document.querySelector('#preview-supervisor').textContent = supervisor.name;
-      lecturers = data;
-      lecturer.replaceChildren(new Option('Pilih nama dosen', ''));
-      data.forEach(person => lecturer.add(new Option(person.name, person.nip)));
+      lecturers = combined.sort((a, b) => a.name.localeCompare(b.name, 'id', { sensitivity: 'base', numeric: true }));
+      selectedNip = '';
+      lecturer.value = '';
+      lecturer.setCustomValidity('');
+      clearPerson.hidden = true;
+      closePersonMenu();
       fields.disabled = false;
       update();
     } catch {
@@ -208,6 +226,97 @@
     }
     return doc;
   }
+  function normalizeSearch(value) {
+    return value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('id').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  }
+  function closePersonMenu() {
+    personMenu.hidden = true;
+    lecturer.setAttribute('aria-expanded', 'false');
+    lecturer.removeAttribute('aria-activedescendant');
+    activeSuggestion = -1;
+  }
+  function paintActiveSuggestion() {
+    for (let index = 0; index < personResults.children.length; index++) {
+      personResults.children[index].setAttribute('aria-selected', String(index === activeSuggestion));
+    }
+    if (activeSuggestion >= 0 && personResults.children[activeSuggestion]) lecturer.setAttribute('aria-activedescendant', personResults.children[activeSuggestion].id);
+    else lecturer.removeAttribute('aria-activedescendant');
+  }
+  function renderSuggestions() {
+    if (fields.disabled) return;
+    const terms = normalizeSearch(lecturer.value).split(/\s+/).filter(Boolean);
+    const matching = lecturers.filter(person => {
+      const searchable = normalizeSearch(`${person.name} ${person.nip}`);
+      return terms.every(term => searchable.includes(term));
+    });
+    suggestions = matching.slice(0, 5);
+    activeSuggestion = terms.length && suggestions.length ? 0 : -1;
+    const fragment = document.createDocumentFragment();
+    suggestions.forEach((person, index) => {
+      const item = document.createElement('li');
+      item.id = `person-option-${index}`;
+      item.dataset.nip = person.nip;
+      item.setAttribute('role', 'option');
+      item.textContent = person.name;
+      fragment.append(item);
+    });
+    personResults.replaceChildren(fragment);
+    personMessage.textContent = !matching.length ? 'Nama nggak ketemu. Coba kata kunci lain.' : matching.length > 5 ? 'Ketik nama lebih lengkap untuk mempersempit hasil.' : '';
+    personMessage.hidden = !personMessage.textContent;
+    personMenu.hidden = false;
+    lecturer.setAttribute('aria-expanded', 'true');
+    paintActiveSuggestion();
+  }
+  function choosePerson(person) {
+    if (!person) return;
+    selectedNip = person.nip;
+    lecturer.value = person.name;
+    lecturer.setCustomValidity('');
+    clearPerson.hidden = false;
+    closePersonMenu();
+    update();
+    lecturer.focus({ preventScroll: true });
+  }
+  lecturer.addEventListener('focus', renderSuggestions);
+  lecturer.addEventListener('input', () => {
+    selectedNip = '';
+    lecturer.setCustomValidity(lecturer.value ? 'Pilih nama dari daftar yang muncul.' : '');
+    clearPerson.hidden = !lecturer.value;
+    renderSuggestions();
+  });
+  lecturer.addEventListener('invalid', renderSuggestions);
+  lecturer.addEventListener('keydown', event => {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (personMenu.hidden) renderSuggestions();
+      if (suggestions.length) {
+        const direction = event.key === 'ArrowDown' ? 1 : -1;
+        activeSuggestion = activeSuggestion < 0 ? (direction > 0 ? 0 : suggestions.length - 1) : (activeSuggestion + direction + suggestions.length) % suggestions.length;
+        paintActiveSuggestion();
+      }
+    } else if (event.key === 'Enter' && !personMenu.hidden) {
+      event.preventDefault();
+      if (activeSuggestion >= 0) choosePerson(suggestions[activeSuggestion]);
+    } else if (event.key === 'Escape' && !personMenu.hidden) {
+      event.preventDefault(); closePersonMenu();
+    } else if (event.key === 'Tab') {
+      if (!selectedNip && lecturer.value.trim()) {
+        const exact = lecturers.filter(person => normalizeSearch(person.name) === normalizeSearch(lecturer.value));
+        if (exact.length === 1) choosePerson(exact[0]);
+      }
+      closePersonMenu();
+    }
+  });
+  personResults.addEventListener('pointerdown', event => event.preventDefault());
+  personResults.addEventListener('click', event => {
+    const option = event.target.closest('[role="option"]');
+    if (option) choosePerson(lecturers.find(person => person.nip === option.dataset.nip));
+  });
+  document.addEventListener('pointerdown', event => { if (!personBox.contains(event.target)) closePersonMenu(); });
+  clearPerson.addEventListener('click', () => {
+    selectedNip = ''; lecturer.value = ''; lecturer.setCustomValidity(''); clearPerson.hidden = true;
+    update(); lecturer.focus(); renderSuggestions();
+  });
   form.addEventListener('input', update);
   form.addEventListener('change', update);
   for (const [button, field] of [['#today-start', start], ['#today-end', end], ['#today', created]]) {

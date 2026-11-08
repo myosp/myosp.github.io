@@ -64,7 +64,7 @@ Untuk memperbarui identitas, edit nilai di `assets/data/dosen.json` berdasarkan 
 
 ## Surat Cuti
 
-Buka `surat-cuti.html` untuk membuat permohonan izin tidak masuk kerja atau cuti berdasarkan contoh formulir yang diberikan. Pilih dosen dan jabatan, isi unit kerja serta alasan, pilih satu tanggal atau rentang tanggal, lalu periksa pratinjau. NIP pemohon mengikuti `assets/data/dosen.json`. Tanggal surat otomatis memakai tanggal Makassar. Tanggal mulai, tanggal selesai, dan tanggal surat dapat diisi melalui tombol Hari ini.
+Buka `surat-cuti.html` untuk membuat permohonan izin tidak masuk kerja atau cuti berdasarkan contoh formulir yang diberikan. Cari nama dosen atau PLP, pilih hasil yang muncul, isi alasan dan tanggal, lalu periksa pratinjau. Pencarian menampilkan maksimal lima hasil tanpa daftar panjang dan mendukung keyboard. NIP dan jabatan (Dosen atau PLP) otomatis masuk ke surat dari `assets/data/dosen.json` dan `assets/data/plp.json`; unit kerja tetap Politeknik ATI Makassar. Data otomatis tidak ditampilkan sebagai isian formulir. Tanggal surat otomatis memakai tanggal Makassar. Tanggal mulai, tanggal selesai, dan tanggal surat dapat diisi melalui tombol Hari ini.
 
 Penandatangan sebagai atasan langsung ditetapkan `Ir. Mutmainnah, S.T., M.T.` dengan NIP `198805112018012001`, identitasnya diambil dari daftar dosen menggunakan NIP agar penulisan namanya selalu konsisten. Kop surat berasal dari berkas contoh yang diberikan pengguna. Surat menyertakan catatan penyerahan ke Kabag Kepegawaian seperti pada contoh.
 
