@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf9f5">
+  <meta name="description" content="Buat permohonan izin tidak masuk kerja atau cuti dosen OSP, lalu unduh PDF atau cetak pada kertas A4.">
+  <title>Surat Cuti — myOSP</title>
+  <link rel="icon" href="assets/myosp-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="surat-cuti.css">
+  <script src="assets/vendor/jspdf/jspdf.umd.min.js" defer></script>
+  <script src="surat-cuti.js" defer></script>
+</head>
+<body>
+  <a class="skip no-print" href="#nama-dosen">Langsung ke formulir</a>
+  <header class="header no-print"><div class="wrap nav"><a class="brand" href="./" aria-label="myOSP, beranda"><img class="brand-mark" src="assets/myosp-icon.svg" alt="" width="38" height="38"><span><span class="brand-name"><b>my</b>OSP</span><span class="brand-label">Otomasi Sistem Permesinan</span></span></a><nav aria-label="Navigasi utama"><a href="./#tools">← Beranda</a></nav></div></header>
+  <main class="wrap leave-layout">
+    <section class="leave-editor no-print" aria-labelledby="leave-title">
+      <p class="eyebrow section-index">ADMINISTRASI / SURAT CUTI</p>
+      <h1 id="leave-title">Bikin surat cuti,<br><em>lebih sat set.</em></h1>
+      <p class="leave-intro">Isi datanya, cek suratnya, lalu unduh atau cetak.</p>
+      <div id="load-error" class="load-error" role="alert" hidden><p>Data dosen belum bisa dimuat. Coba lagi, ya.</p><button type="button" class="secondary-button" id="retry-data">Muat ulang</button></div>
+      <form id="leave-form">
+        <fieldset id="form-fields" disabled>
+          <div class="field"><label for="nama-dosen">Nama dosen <span aria-hidden="true">*</span></label><select id="nama-dosen" required><option value="">Pilih nama dosen</option></select><p id="nip-hint" class="field-hint" aria-live="polite">NIP terisi otomatis setelah nama dipilih.</p></div>
+          <div class="field"><label for="jabatan">Jabatan <span aria-hidden="true">*</span></label><select id="jabatan" required><option value="">Pilih jabatan</option><option value="Asisten Ahli">Asisten Ahli</option><option value="Lektor">Lektor</option><option value="Lektor Kepala">Lektor Kepala</option></select></div>
+          <div class="field"><label for="unit-kerja">Unit kerja <span aria-hidden="true">*</span></label><input id="unit-kerja" type="text" value="Politeknik ATI Makassar" maxlength="100" required></div>
+          <fieldset class="period-field"><legend>Lama izin <span aria-hidden="true">*</span></legend><div class="period-options"><label><input type="radio" name="period" value="single" checked><span>1 hari</span></label><label><input type="radio" name="period" value="range"><span>Rentang tanggal</span></label></div></fieldset>
+          <div class="field"><div class="label-row"><label for="tanggal-mulai" id="tanggal-mulai-label">Tanggal izin <span aria-hidden="true">*</span></label><button class="today-button" id="today-start" type="button" aria-label="Isi tanggal izin dengan hari ini">Hari ini</button></div><input id="tanggal-mulai" type="date" min="1900-01-01" max="2100-12-31" required><p class="field-hint" id="mulai-day" aria-live="polite"></p></div>
+          <div class="field" id="end-date-field" hidden><div class="label-row"><label for="tanggal-selesai">Sampai tanggal <span aria-hidden="true">*</span></label><button class="today-button" id="today-end" type="button" aria-label="Isi tanggal selesai dengan hari ini">Hari ini</button></div><input id="tanggal-selesai" type="date" min="1900-01-01" max="2100-12-31" aria-describedby="akhir-day akhir-error"><p class="field-hint" id="akhir-day" aria-live="polite"></p><p class="field-error" id="akhir-error" role="alert" hidden></p></div>
+          <div class="field"><label for="alasan">Alasan <span aria-hidden="true">*</span></label><textarea id="alasan" rows="3" maxlength="240" placeholder="Tulis alasan izin atau cuti" required></textarea><p class="field-hint field-hint-right"><span id="reason-count">0</span>/240</p></div>
+          <div class="field"><div class="label-row"><label for="tanggal-surat">Tanggal dibuat <span aria-hidden="true">*</span></label><button class="today-button" id="today" type="button" aria-label="Isi tanggal dibuat dengan hari ini">Hari ini</button></div><input id="tanggal-surat" type="date" min="1900-01-01" max="2100-12-31" required><p class="field-hint" id="surat-day" aria-live="polite"></p></div>
+          <div class="leave-actions"><button class="primary-button leave-download" id="download-pdf" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg>Unduh PDF</button><button class="secondary-button leave-print" id="print-letter" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4V9h16v9h-2M6 14h12v7H6zM17 12h.01"/></svg>Cetak</button></div>
+          <p class="privacy-note">Data diproses di perangkat ini dan tidak dikirim ke server.</p>
+        </fieldset>
+      </form>
+    </section>
+    <section class="leave-preview" aria-labelledby="preview-title"><div class="preview-header no-print"><div><p class="preview-eyebrow">LIHAT SEBELUM DIUNDUH</p><h2 id="preview-title">Pratinjau surat</h2></div><span class="preview-badge">A4</span></div><div class="preview-stage"><div class="paper-shell" id="paper-shell"><article class="letter-paper" id="letter-paper" aria-label="Pratinjau surat izin atau cuti"><img class="letter-kop" src="assets/kop-poltek-atim.png" alt="Kop surat Kementerian Perindustrian, Politeknik ATI Makassar" width="1584" height="203"><div class="letter-content"><h2>PERMOHONAN IZIN TIDAK MASUK KERJA / CUTI</h2><p class="letter-intro">Yang bertanda tangan di bawah ini, saya :</p><dl class="letter-fields"><div><dt>Nama</dt><dd><span>:</span><span id="preview-name">Nama dosen</span></dd></div><div><dt>Jabatan</dt><dd><span>:</span><span id="preview-position">Jabatan dosen</span></dd></div><div><dt>Unit Kerja</dt><dd><span>:</span><span id="preview-unit">Politeknik ATI Makassar</span></dd></div></dl><p class="letter-request">Mengajukan Permohonan Izin tidak masuk kerja pada :</p><dl class="letter-fields"><div><dt>Hari/Tanggal</dt><dd><span>:</span><span id="preview-period">Tanggal izin</span></dd></div><div><dt>Dengan alasan</dt><dd><span>:</span><span id="preview-reason">Alasan izin atau cuti</span></dd></div></dl><p class="letter-closing">Demikian permohonan izin saya ajukan. Atas perhatian dan pengertian Bapak/Ibu, saya ucapkan terimakasih.</p><p class="letter-date">Makassar, <span id="preview-date">Tanggal dibuat</span></p><div class="signature-row"><div class="signature"><p>Mengetahui,<br>Atasan Langsung</p><div class="signature-space"></div><strong id="preview-supervisor">Ir. Mutmainnah, S.T., M.T.</strong><span>NIP. 198805112018012001</span></div><div class="signature"><p>Pemohon,</p><div class="signature-space"></div><strong id="preview-signature">Nama dosen</strong><span id="preview-nip">NIP. —</span></div></div><div class="letter-note"><span>Catatan :</span><p>Permohonan izin ini diserahkan ke Kabag Kepegawaian sebelum izin tidak masuk kantor (kecuali sakit).</p></div></div></article></div></div><p class="preview-footnote no-print">Pratinjau diperbarui otomatis. Surat dicetak pada kertas A4.</p></section>
+  </main>
+  <footer class="wrap footer no-print"><div><a class="footer-brand" href="./">myOSP</a><p>D3 Otomasi Sistem Permesinan · Politeknik ATI Makassar</p></div><a class="text-button" href="./#tools">Kembali ke beranda</a></footer>
+  <div id="leave-toast" class="toast no-print" role="status"></div>
+  <noscript><p class="noscript">Aktifkan JavaScript untuk mengisi dan membuat surat cuti.</p></noscript>
+</body>
+</html>

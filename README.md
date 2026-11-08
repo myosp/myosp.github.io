@@ -19,7 +19,7 @@ Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, at
 - `app.js`: katalog tools, pencarian, kategori, favorit, dan interaksi keyboard.
 - `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
 
-Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Izin dan Surat Cuti masih dalam perencanaan; kartu membuka penjelasan rencana. Kategori Tautan belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
+Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Cuti tersedia di `surat-cuti.html`; Surat Izin masih dalam perencanaan dan kartunya membuka penjelasan rencana. Kategori Link Penting belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
 
 Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
 
@@ -60,3 +60,11 @@ Setiap kartu menyediakan lima tombol salin terpisah: nama dan gelar, NIP, NIDN, 
 Penyalinan menggunakan Clipboard API pada HTTPS/localhost, dengan fallback penyalinan browser. Jika keduanya tidak tersedia, dialog menyediakan teks yang sudah dipilih untuk disalin manual. Kegagalan pemuatan data menampilkan pesan dan tombol coba ulang.
 
 Untuk memperbarui identitas, edit nilai di `assets/data/dosen.json` berdasarkan konfirmasi pemilik data. Pertahankan ejaan, gelar, tanda baca, dan tipe string seluruh nomor identitas. Tidak ada backend atau instalasi tambahan yang diperlukan.
+
+## Surat Cuti
+
+Buka `surat-cuti.html` untuk membuat permohonan izin tidak masuk kerja atau cuti berdasarkan contoh formulir yang diberikan. Pilih dosen dan jabatan, isi unit kerja serta alasan, pilih satu tanggal atau rentang tanggal, lalu periksa pratinjau. NIP pemohon mengikuti `assets/data/dosen.json`. Tanggal surat otomatis memakai tanggal Makassar. Tanggal mulai, tanggal selesai, dan tanggal surat dapat diisi melalui tombol Hari ini.
+
+Penandatangan sebagai atasan langsung ditetapkan `Ir. Mutmainnah, S.T., M.T.` dengan NIP `198805112018012001`, identitasnya diambil dari daftar dosen menggunakan NIP agar penulisan namanya selalu konsisten. Kop surat berasal dari berkas contoh yang diberikan pengguna. Surat menyertakan catatan penyerahan ke Kabag Kepegawaian seperti pada contoh.
+
+Tombol **Unduh PDF** membuat PDF teks A4 satu halaman secara lokal; **Cetak** membuka dialog cetak browser dengan ukuran A4. Teks panjang menggunakan jarak yang lebih ringkas agar tetap muat. Data formulir tidak dikirim ke server atau disimpan. Generator menggunakan `jsPDF` 4.2.1 yang disertakan lokal beserta lisensinya, serta font Liberation Sans dengan lisensi di `assets/fonts/`. Tidak ada langkah build atau koneksi eksternal saat digunakan.
