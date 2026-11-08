@@ -30,3 +30,5 @@
 @media(max-width:700px){.tools-section .section-heading h1{font-size:32px}}
 
 .external-indicator{display:inline-flex;vertical-align:middle;color:var(--muted);margin-left:4px}.external-indicator svg{width:15px;height:15px}
+
+.home-intro{font-size:16px;line-height:1.7;color:var(--muted);margin:12px 0 0}
