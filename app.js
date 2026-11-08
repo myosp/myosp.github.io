@@ -70,7 +70,7 @@ document.querySelectorAll('span').forEach(el=>{if(el.textContent.trim()==='↗')
 (() => {
  const display=document.querySelector('[data-typewriter]');
  if(!display)return;
- const words=['sat set','cepat','praktis'];
+ const words=['Sat-Set','Aura Farming','Slay'];
  const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
  let index=0,letters=words[0].length,deleting=true,timer;
  function step(){

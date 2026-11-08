@@ -41,4 +41,8 @@
 .home-illustration{transform:translate3d(0,var(--hero-parallax,0px),0);will-change:transform}
 @media(prefers-reduced-motion:reduce){.home-illustration{transform:none!important;will-change:auto}}
 
-.typing-comma{color:var(--ink)}
+
+/* The first line stays together as the word and flame move. */
+.heading-line{display:block}.heading-line:first-child{white-space:nowrap}.heading-fire{font-family:system-ui,sans-serif;font-size:.8em;vertical-align:.03em}
+@media(min-width:701px) and (max-width:1000px){.home-heading{grid-template-columns:minmax(0,1fr) minmax(0,30%);gap:18px}.tools-section .home-heading h1{font-size:clamp(32px,4vw,40px)}}
+@media(max-width:480px){.tools-section .home-heading h1{font-size:clamp(26px,8vw,38px);letter-spacing:-.8px}}
