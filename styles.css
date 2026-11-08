@@ -16,3 +16,5 @@
 .text-button{min-height:44px;display:inline-flex;align-items:center}
 .card-top{padding-right:24px}
 @media(max-width:700px){.nav-about,.nav nav a[href='#tautan']{display:none}.nav nav{gap:12px}.nav{gap:12px}.brand-label{letter-spacing:0}.identity-strip{row-gap:8px}.search-box{padding:14px 12px}.links-placeholder{align-items:flex-start}.link-symbol{display:none}.dialog-content{padding:24px}}
+
+.tool-open{color:inherit;font:inherit;background:none;cursor:pointer}.coming-badge.available-badge:before{background:#658451}.coming-badge.available-badge{color:#536d43}

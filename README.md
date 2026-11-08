@@ -19,7 +19,7 @@ Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, at
 - `app.js`: katalog tools, pencarian, kategori, favorit, dan interaksi keyboard.
 - `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
 
-Daftar rencana tools berada pada array `tools` di `app.js`. Surat Izin, Surat Cuti, dan QR Code Generator **belum berfungsi**; kartu membuka penjelasan rencana. Tautan penting belum diisi agar tidak mengarahkan pengguna ke tujuan sementara.
+Daftar aplikasi berada pada array `tools` di `app.js`. QR Code Generator tersedia di `qr-generator.html`. Surat Izin dan Surat Cuti masih dalam perencanaan; kartu membuka penjelasan rencana. Tautan penting belum diisi agar tidak mengarahkan pengguna ke tujuan sementara.
 
 Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
 
@@ -36,3 +36,17 @@ Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tid
 Situs siap disajikan langsung dari root repository. Setelah perubahan digabungkan atau didorong ke `main`, atur **Settings → Pages → Deploy from a branch → main / (root)** bila belum aktif. File `.nojekyll` memastikan aset statis disajikan langsung. Deployment tidak dilakukan otomatis oleh proses pengembangan lokal.
 
 Gaya visual mengikuti referensi fadhlyid.github.io: Inter, Source Serif 4, latar krem, dan terracotta. MyOSP tidak berafiliasi dengan Anthropic.
+
+## QR Code Generator
+
+Buka `qr-generator.html` melalui server lokal. Masukkan tautan HTTP(S); awalan HTTPS ditambahkan untuk alamat tanpa protokol. Pratinjau awal adalah contoh dan tidak dapat diunduh sebelum pengguna memasukkan tautan.
+
+- Unduhan PNG berukuran 1088 × 1200 piksel, termasuk bingkai dan label SCAN ME.
+- Penyalinan PNG memerlukan HTTPS atau localhost dan dukungan Clipboard API. Bila akses ditolak, gunakan Unduh PNG.
+- Logo bawaan jurusan belum dipasang; berkas sumber logo masih diperlukan. Logo PNG/JPG/WebP dapat dipilih melalui Pengaturan logo (maksimal 2 MB dan dimensi 6000 piksel). Logo diolah lokal menjadi WebP 256 × 256, tanpa dikirim atau disimpan di server.
+- QR menggunakan tingkat koreksi kesalahan H, margin putih, dan logo dengan ukuran terbatas untuk menjaga keterbacaan. Pindai hasil unduhan sebelum distribusi.
+- Tautan dibatasi 900 byte setelah normalisasi. Tidak ada pelacakan atau pengalihan melalui server MyOSP.
+
+Library `qr-code-styling` 1.9.2 disertakan secara lokal di `assets/vendor/qr-code-styling/`. Bundle berasal dari paket npm resmi dan menyertakan `qrcode-generator`. Lisensi keduanya disertakan. Aplikasi tetap statis, tanpa instalasi paket atau proses build.
+
+Pemeriksaan browser yang dilakukan: tautan dari beranda, penambahan HTTPS, validasi URL, decoding QR dengan decoder independen jsQR (tautan pendek, parameter, tautan panjang, dan logo berwarna), unggah/hapus logo, penolakan gambar rusak, unduhan PNG, Clipboard API, serta layout pada lebar 320–1440 piksel.
