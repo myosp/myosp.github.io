@@ -8,15 +8,12 @@
   const error = document.querySelector('#url-error');
   const download = document.querySelector('#download-qr');
   const copy = document.querySelector('#copy-qr');
-  const logoFile = document.querySelector('#logo-file');
-  const logoError = document.querySelector('#logo-error');
   let logoData;
   let exportBlob;
   let currentUrl = '';
   let version = 0;
   let timer;
   let toastTimer;
-  let logoVersion = 0;
 
   function notify(message) {
     const toast = document.querySelector('#qr-toast');
@@ -66,23 +63,23 @@
     try {
       if (typeof QRCodeStyling !== 'function') throw Error('Komponen QR tidak tersedia. Muat ulang halaman untuk mencoba kembali.');
       const qr = new QRCodeStyling({
-        width: 1024, height: 1024, type: 'canvas', data: url, margin: 56,
+        width: 1040, height: 1040, type: 'canvas', data: url, margin: 56,
         qrOptions: { errorCorrectionLevel: 'H' },
-        dotsOptions: { type: 'rounded', color: '#17171d' },
-        cornersSquareOptions: { type: 'extra-rounded', color: '#17171d' },
+        dotsOptions: { type: 'square', color: '#17171d' },
+        cornersSquareOptions: { type: 'square', color: '#17171d' },
         cornersDotOptions: { type: 'square', color: '#17171d' },
         backgroundOptions: { color: '#ffffff' },
         image: logoData,
-        imageOptions: { hideBackgroundDots: true, imageSize: .18, margin: 8, crossOrigin: 'anonymous' }
+        imageOptions: { hideBackgroundDots: true, imageSize: .10, margin: 8, crossOrigin: 'anonymous' }
       });
       const image = await blobCanvas(await qr.getRawData('png'));
       if (ticket !== version) return;
-      // Compose the frame separately, preserving the QR's white quiet zone.
+      // Keep QR pixels at their native size when framing to avoid blurring dense codes.
       const output = document.createElement('canvas');
       output.width = 1088; output.height = 1200;
       const context = output.getContext('2d');
       context.fillStyle = '#17171d'; context.fillRect(0, 0, 1088, 1200);
-      context.drawImage(image, 24, 24, 1040, 1040);
+      context.drawImage(image, 24, 24);
       context.fillStyle = '#ffffff'; context.textAlign = 'center'; context.textBaseline = 'middle';
       context.font = 'bold 48px Arial, sans-serif'; context.fillText('SCAN ME', 544, 1129);
       const blob = await new Promise(resolve => output.toBlob(resolve, 'image/png'));
@@ -95,7 +92,7 @@
       download.disabled = demo; copy.disabled = demo;
       destination.textContent = url; destination.hidden = demo;
       status.textContent = demo ? 'Contoh pratinjau. Masukkan tautan untuk membuat kode QR.' : 'Kode QR siap diunduh. Periksa tautan tujuan sebelum dibagikan.';
-      document.querySelector('#logo-badge').textContent = logoData ? 'Dengan logo' : 'Tanpa logo';
+      document.querySelector('#logo-badge').textContent = 'Logo kampus';
     } catch (failure) {
       if (ticket !== version) return;
       exportBlob = undefined; download.disabled = true; copy.disabled = true;
@@ -145,38 +142,19 @@
       notify('Gambar kode QR berhasil disalin.');
     } catch { notify('Gambar tidak dapat disalin. Izinkan akses papan klip atau gunakan Unduh PNG.'); }
   });
-  logoFile.addEventListener('change', async () => {
-    const file = logoFile.files[0];
-    const ticket = ++logoVersion;
-    logoError.hidden = true;
-    if (!file) return;
+  async function initialize() {
+    input.disabled = true;
+    status.textContent = 'Memuat logo kampus…';
     try {
-      if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw Error('Gunakan file PNG, JPG, atau WebP.');
-      if (file.size > 2 * 1024 * 1024) throw Error('Ukuran logo melebihi 2 MB. Pilih file yang lebih kecil.');
-      const image = await blobCanvas(file);
-      if (ticket !== logoVersion) return;
-      if (!image.naturalWidth || !image.naturalHeight || image.naturalWidth > 6000 || image.naturalHeight > 6000) throw Error('Dimensi gambar tidak valid atau melebihi 6000 piksel.');
-      const logo = document.createElement('canvas'); logo.width = 256; logo.height = 256;
-      const context = logo.getContext('2d'); context.fillStyle = '#ffffff'; context.fillRect(0, 0, 256, 256);
-      const scale = Math.min(236 / image.naturalWidth, 236 / image.naturalHeight);
-      const width = image.naturalWidth * scale, height = image.naturalHeight * scale;
-      context.drawImage(image, (256 - width) / 2, (256 - height) / 2, width, height);
-      logoData = logo.toDataURL('image/webp', .9);
-      document.querySelector('#logo-thumbnail').src = logoData;
-      document.querySelector('#logo-name').textContent = file.name;
-      document.querySelector('#logo-selection').hidden = false;
+      const image = new Image();
+      image.src = 'assets/logo-campus.webp';
+      await image.decode();
+      logoData = image.src;
+      input.disabled = false;
       update(true);
-    } catch (failure) {
-      if (ticket !== logoVersion) return;
-      logoError.textContent = failure.message || 'Logo tidak dapat dibaca.'; logoError.hidden = false;
-    } finally { if (ticket === logoVersion) logoFile.value = ''; }
-  });
-  document.querySelector('#remove-logo').addEventListener('click', () => {
-    ++logoVersion; logoData = undefined;
-    document.querySelector('#logo-selection').hidden = true;
-    document.querySelector('#logo-thumbnail').removeAttribute('src');
-    logoError.hidden = true;
-    update(true);
-  });
-  update(true);
+    } catch {
+      status.textContent = 'Logo kampus tidak dapat dimuat. Muat ulang halaman untuk mencoba kembali.';
+    }
+  }
+  initialize();
 })();

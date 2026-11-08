@@ -43,10 +43,10 @@ Buka `qr-generator.html` melalui server lokal. Masukkan tautan HTTP(S); awalan H
 
 - Unduhan PNG berukuran 1088 × 1200 piksel, termasuk bingkai dan label SCAN ME.
 - Penyalinan PNG memerlukan HTTPS atau localhost dan dukungan Clipboard API. Bila akses ditolak, gunakan Unduh PNG.
-- Logo bawaan jurusan belum dipasang; berkas sumber logo masih diperlukan. Logo PNG/JPG/WebP dapat dipilih melalui Pengaturan logo (maksimal 2 MB dan dimensi 6000 piksel). Logo diolah lokal menjadi WebP 256 × 256, tanpa dikirim atau disimpan di server.
+- Logo kampus dimuat otomatis dari `assets/logo-campus.webp`. Tidak ada pengaturan atau unggahan logo pada halaman generator. Logo berasal dari berkas PNG yang diberikan pengguna dan dikonversi ke WebP lossless: 28.214 → 15.880 byte, dengan piksel RGBA identik.
 - QR menggunakan tingkat koreksi kesalahan H, margin putih, dan logo dengan ukuran terbatas untuk menjaga keterbacaan. Pindai hasil unduhan sebelum distribusi.
 - Tautan dibatasi 900 byte setelah normalisasi. Tidak ada pelacakan atau pengalihan melalui server MyOSP.
 
 Library `qr-code-styling` 1.9.2 disertakan secara lokal di `assets/vendor/qr-code-styling/`. Bundle berasal dari paket npm resmi dan menyertakan `qrcode-generator`. Lisensi keduanya disertakan. Aplikasi tetap statis, tanpa instalasi paket atau proses build.
 
-Pemeriksaan browser yang dilakukan: tautan dari beranda, penambahan HTTPS, validasi URL, decoding QR dengan decoder independen jsQR (tautan pendek, parameter, tautan panjang, dan logo berwarna), unggah/hapus logo, penolakan gambar rusak, unduhan PNG, Clipboard API, serta layout pada lebar 320–1440 piksel.
+Pemeriksaan browser yang dilakukan: tautan dari beranda, penambahan HTTPS, validasi URL, decoding QR dengan decoder independen jsQR (tautan pendek, parameter, tautan panjang, dan logo berwarna), pemuatan logo kampus otomatis, unduhan PNG, Clipboard API, serta layout pada lebar 320–1440 piksel.

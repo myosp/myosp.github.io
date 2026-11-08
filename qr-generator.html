@@ -17,20 +17,19 @@
     <section class="qr-editor" aria-labelledby="qr-title">
       <p class="department-badge"><span class="status-dot"></span> D3 Otomasi Sistem Permesinan</p>
       <h1 id="qr-title">Pembuat<br><em>Kode QR</em></h1>
-      <p class="qr-intro">Masukkan tautan materi, dokumen, atau halaman web untuk membuat kode QR.</p>
+      <p class="qr-intro">Masukkan tautan materi, dokumen, atau halaman web untuk membuat kode QR dengan logo kampus.</p>
       <form id="qr-form" novalidate>
         <label class="field-label" for="qr-url">Alamat tautan</label>
         <div class="qr-input-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 13 4-4M8 16l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M16 8l1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0) scale(.9)"/></svg><input id="qr-url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="Contoh: myosp.github.io" maxlength="1500" aria-describedby="url-help url-error" required><button type="button" id="clear-url" aria-label="Hapus tautan" hidden>×</button></div>
         <p class="field-help" id="url-help">Awalan https:// ditambahkan secara otomatis.</p>
         <p class="field-error" id="url-error" role="alert" hidden></p>
-        <details class="qr-options"><summary>Pengaturan logo</summary><div class="logo-settings"><p id="logo-help">Tambahkan file logo jurusan untuk ditampilkan di tengah kode QR.</p><label class="upload-label" for="logo-file">Pilih logo</label><input id="logo-file" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="logo-help logo-error"><p class="field-help">PNG, JPG, atau WebP. Maksimal 2 MB.</p><p id="logo-error" class="field-error" role="alert" hidden></p><div class="logo-selection" id="logo-selection" hidden><img id="logo-thumbnail" alt="Logo yang dipilih" width="40" height="40"><span id="logo-name"></span><button type="button" id="remove-logo" class="text-button">Hapus logo</button></div></div></details>
       </form>
 
     </section>
     <section class="qr-preview-panel" aria-labelledby="preview-title">
-      <div class="preview-header"><h2 id="preview-title">Pratinjau QR</h2><span class="preview-badge" id="logo-badge">Tanpa logo</span></div>
+      <div class="preview-header"><h2 id="preview-title">Pratinjau QR</h2><span class="preview-badge" id="logo-badge">Logo kampus</span></div>
       <div class="qr-stage" id="qr-stage" aria-busy="false"><canvas id="qr-canvas" width="1088" height="1200" role="img" aria-label="Contoh kode QR menuju beranda MyOSP"></canvas></div>
-      <p class="preview-status" id="preview-status" role="status">Contoh pratinjau. Masukkan tautan untuk membuat kode QR.</p>
+      <p class="preview-status" id="preview-status" role="status">Contoh pratinjau. Masukkan tautan untuk membuat kode QR dengan logo kampus.</p>
       <p class="qr-destination" id="qr-destination" hidden></p>
       <div class="qr-actions"><button class="primary-button download-button" id="download-qr" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg>Unduh PNG</button><button class="copy-button" id="copy-qr" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="1"/><path d="M16 8V3H3v13h5"/></svg>Salin gambar</button></div>
       <p class="export-note">Format PNG · 1088 × 1200 piksel</p>
@@ -39,6 +38,6 @@
   </main>
   <footer class="wrap footer"><div><a class="footer-brand" href="./">MyOSP</a><p>D3 Otomasi Sistem Permesinan · Politeknik ATI Makassar</p></div><a class="text-button" href="./#tools">Kembali ke daftar aplikasi</a></footer>
   <div class="toast" id="qr-toast" role="status"></div>
-  <noscript><p class="noscript">Aktifkan JavaScript untuk membuat kode QR.</p></noscript>
+  <noscript><p class="noscript">Aktifkan JavaScript untuk membuat kode QR dengan logo kampus.</p></noscript>
 </body>
 </html>
