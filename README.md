@@ -19,7 +19,7 @@ Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, at
 - `app.js`: katalog tools, pencarian, kategori, favorit, dan interaksi keyboard.
 - `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
 
-Daftar aplikasi berada pada array `tools` di `app.js`. QR Code Generator tersedia di `qr-generator.html`. Surat Izin dan Surat Cuti masih dalam perencanaan; kartu membuka penjelasan rencana. Kategori Tautan belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
+Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Izin dan Surat Cuti masih dalam perencanaan; kartu membuka penjelasan rencana. Kategori Tautan belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
 
 Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
 
