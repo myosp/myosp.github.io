@@ -4,7 +4,7 @@
   const form = $('#form'), fields = $('#form-fields'), team = $('#team'), memberInput = $('#anggota'), applicantInput = $('#pemohon');
   const start = $('#mulai'), end = $('#selesai'), reason = $('#keperluan'), preview = $('#preview');
   const supervisor = { name: 'Ir. Mutmainnah, S.T., M.T.', nip: '198805112018012001' };
-  let people = [], applicant = null, members = [], assets = null, timer, previewVersion = 0, pdfjsPromise;
+  let people = [], applicant = null, members = [], assets = null;
   const clean = value => value.trim().replace(/\s+/g, ' ');
   const normalize = value => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('id').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   function today() { const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Makassar', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date()); const v = Object.fromEntries(parts.map(p => [p.type, p.value])); return `${v.year}-${v.month}-${v.day}`; }
@@ -53,39 +53,34 @@
     reason.setCustomValidity(reason.value && !clean(reason.value) ? 'Isi keperluan izin.' : '');
     $('#tanggal-day').textContent = date($('#tanggal').value, true); $('#dibuat-day').textContent = date($('#dibuat').value, true);
     const list = $('#members'); list.replaceChildren(); members.forEach(person => { const li = document.createElement('li'), name = document.createElement('span'), remove = document.createElement('button'); name.textContent = person.name; remove.type='button'; remove.textContent='×'; remove.setAttribute('aria-label', `Hapus ${person.name}`); remove.addEventListener('click', () => { members = members.filter(p => p !== person); update(); }); li.append(name,remove); list.append(li); });
-    if (!assets || !window.jspdf) return;
-    clearTimeout(timer);
-    const version = ++previewVersion;
-    timer = setTimeout(() => renderPreview(model(), version), 250);
+    const data = model();
+    const set = (selector, value) => { $(selector).textContent = value; };
+    set('#preview-name', data.applicant?.name || 'Nama pemohon');
+    set('#preview-nip', data.applicant?.nip || '—');
+    set('#preview-role', data.applicant?.role ? `${data.applicant.role} Otomasi Sistem Permesinan` : '—');
+    set('#preview-date', data.date || 'Tanggal izin');
+    set('#preview-time', data.start && data.end ? `${data.start} - ${data.end}` : 'Jam keluar - kembali');
+    set('#preview-reason', data.reason || 'Keperluan izin');
+    set('#preview-created', data.created || 'Tanggal dibuat');
+    set('#preview-supervisor', supervisor.name);
+    set('#preview-signature', data.applicant?.name || 'Nama pemohon');
+    set('#preview-signature-nip', `NIP. ${data.applicant?.nip || '—'}`);
+    for (const [selector, label] of [['#preview-dinas','Dinas Luar'], ['#preview-tugas','Tugas Luar'], ['#preview-pribadi','Pribadi']]) set(selector, `${data.kind === label ? '☑' : '☐'} ${label}`);
+    $('#preview-team').hidden = !data.members.length;
+    const memberList = $('#preview-members'); memberList.replaceChildren();
+    data.members.forEach(person => { const item = document.createElement('li'); item.textContent = person.name; memberList.append(item); });
+    requestAnimationFrame(fitPreview);
   }
-  async function renderPreview(data, version) {
-    let task;
-    try {
-      if (!pdfjsPromise) pdfjsPromise = import('./assets/vendor/pdfjs/pdf.min.mjs').then(lib => {
-        lib.GlobalWorkerOptions.workerSrc = './assets/vendor/pdfjs/pdf.worker.min.mjs';
-        return lib;
-      }).catch(error => { pdfjsPromise = null; throw error; });
-      const lib = await pdfjsPromise;
-      if (version !== previewVersion) return;
-      const bytes = new Uint8Array(pdf(data).output('arraybuffer'));
-      task = lib.getDocument({ data: bytes, standardFontDataUrl: './assets/vendor/pdfjs/standard_fonts/', cMapUrl: './assets/vendor/pdfjs/cmaps/', cMapPacked: true, wasmUrl: './assets/vendor/pdfjs/wasm/' });
-      const document = await task.promise;
-      const pages = window.document.createDocumentFragment();
-      for (let number = 1; number <= document.numPages; number++) {
-        if (version !== previewVersion) return;
-        const page = await document.getPage(number);
-        const viewport = page.getViewport({ scale: 1.4 });
-        const canvas = window.document.createElement('canvas');
-        canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
-        canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', `Pratinjau surat, halaman ${number}`);
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport, background: '#fff' }).promise;
-        pages.append(canvas);
-      }
-      if (version === previewVersion) { preview.replaceChildren(pages); preview.setAttribute('aria-busy', 'false'); }
-    } catch (error) {
-      if (version === previewVersion) { preview.textContent = 'Pratinjau belum tersedia. Muat ulang halaman untuk mencoba lagi.'; preview.setAttribute('aria-busy', 'false'); }
-    } finally { if (task) await task.destroy(); }
+  function fitPreview() {
+    const shell = $('#preview-shell');
+    if (!shell.clientWidth || !preview.offsetWidth) return;
+    const scale = Math.min(1, shell.clientWidth / preview.offsetWidth);
+    preview.style.transform = `scale(${scale})`;
+    shell.style.height = `${Math.ceil(preview.offsetHeight * scale)}px`;
   }
+  window.addEventListener('resize', fitPreview, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(fitPreview).observe($('#preview-shell'));
+  if (document.fonts?.ready) document.fonts.ready.then(fitPreview);
   function picker(input, box, isMember) {
     const menu = box.querySelector('.person-menu'), list = menu.querySelector('ul'), message = menu.querySelector('p'); let matches = [], active = -1;
     function close() { menu.hidden = true; input.setAttribute('aria-expanded','false'); input.removeAttribute('aria-activedescendant'); active=-1; }
@@ -122,5 +117,5 @@
   $('#retry').addEventListener('click',load);
   form.addEventListener('submit',e=> { e.preventDefault(); if(!ready()) return; try { pdf(model()).save(`surat-izin-${$('#tanggal').value}.pdf`); notify('PDF berhasil dibuat.'); } catch { notify('PDF belum bisa dibuat. Coba lagi.'); } });
   $('#print').addEventListener('click',()=> { if(!ready()) return; try { const doc=pdf(model()); doc.autoPrint(); const url=URL.createObjectURL(doc.output('blob')); const win=window.open(url,'_blank'); if(!win) { URL.revokeObjectURL(url); notify('Izinkan pop-up untuk mencetak, atau unduh PDF.'); } else setTimeout(()=>URL.revokeObjectURL(url),60000); } catch { notify('Surat belum bisa dicetak. Coba unduh PDF.'); } });
-  $('#dibuat').value=today(); load();
+  $('#dibuat').value=today(); update(); load();
 })();
