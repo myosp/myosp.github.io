@@ -1,4 +1,4 @@
-# OSP Apps
+# MyOSP
 
 Rumah tools untuk dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.
 
@@ -35,4 +35,4 @@ Favorit dan preferensi tema disimpan di `localStorage` pada perangkat pengguna. 
 
 Situs siap disajikan langsung dari root repository. Setelah perubahan digabungkan atau didorong ke `main`, atur **Settings → Pages → Deploy from a branch → main / (root)** bila belum aktif. File `.nojekyll` memastikan aset statis disajikan langsung. Deployment tidak dilakukan otomatis oleh proses pengembangan lokal.
 
-Gaya visual mengikuti referensi fadhlyid.github.io: Inter, Source Serif 4, latar krem, dan terracotta. OSP Apps tidak berafiliasi dengan Anthropic.
+Gaya visual mengikuti referensi fadhlyid.github.io: Inter, Source Serif 4, latar krem, dan terracotta. MyOSP tidak berafiliasi dengan Anthropic.
