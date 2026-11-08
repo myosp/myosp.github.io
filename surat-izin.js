@@ -4,7 +4,7 @@
   const form = $('#form'), fields = $('#form-fields'), team = $('#team'), memberInput = $('#anggota'), applicantInput = $('#pemohon');
   const start = $('#mulai'), end = $('#selesai'), reason = $('#keperluan'), preview = $('#preview');
   const supervisor = { name: 'Ir. Mutmainnah, S.T., M.T.', nip: '198805112018012001' };
-  let people = [], applicant = null, members = [], assets = null, previewUrl = '', timer;
+  let people = [], applicant = null, members = [], assets = null, timer, previewVersion = 0, pdfjsPromise;
   const clean = value => value.trim().replace(/\s+/g, ' ');
   const normalize = value => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('id').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   function today() { const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Makassar', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date()); const v = Object.fromEntries(parts.map(p => [p.type, p.value])); return `${v.year}-${v.month}-${v.day}`; }
@@ -54,7 +54,37 @@
     $('#tanggal-day').textContent = date($('#tanggal').value, true); $('#dibuat-day').textContent = date($('#dibuat').value, true);
     const list = $('#members'); list.replaceChildren(); members.forEach(person => { const li = document.createElement('li'), name = document.createElement('span'), remove = document.createElement('button'); name.textContent = person.name; remove.type='button'; remove.textContent='×'; remove.setAttribute('aria-label', `Hapus ${person.name}`); remove.addEventListener('click', () => { members = members.filter(p => p !== person); update(); }); li.append(name,remove); list.append(li); });
     if (!assets || !window.jspdf) return;
-    clearTimeout(timer); timer = setTimeout(() => { try { const url = URL.createObjectURL(pdf(model()).output('blob')); preview.src = `${url}#toolbar=0&navpanes=0&view=FitH`; const old = previewUrl; previewUrl = url; if (old) setTimeout(() => URL.revokeObjectURL(old), 1000); } catch (error) { console.error(error); } }, 200);
+    clearTimeout(timer);
+    const version = ++previewVersion;
+    timer = setTimeout(() => renderPreview(model(), version), 250);
+  }
+  async function renderPreview(data, version) {
+    let task;
+    try {
+      if (!pdfjsPromise) pdfjsPromise = import('./assets/vendor/pdfjs/pdf.min.mjs').then(lib => {
+        lib.GlobalWorkerOptions.workerSrc = './assets/vendor/pdfjs/pdf.worker.min.mjs';
+        return lib;
+      }).catch(error => { pdfjsPromise = null; throw error; });
+      const lib = await pdfjsPromise;
+      if (version !== previewVersion) return;
+      const bytes = new Uint8Array(pdf(data).output('arraybuffer'));
+      task = lib.getDocument({ data: bytes, standardFontDataUrl: './assets/vendor/pdfjs/standard_fonts/', cMapUrl: './assets/vendor/pdfjs/cmaps/', cMapPacked: true, wasmUrl: './assets/vendor/pdfjs/wasm/' });
+      const document = await task.promise;
+      const pages = window.document.createDocumentFragment();
+      for (let number = 1; number <= document.numPages; number++) {
+        if (version !== previewVersion) return;
+        const page = await document.getPage(number);
+        const viewport = page.getViewport({ scale: 1.4 });
+        const canvas = window.document.createElement('canvas');
+        canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
+        canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', `Pratinjau surat, halaman ${number}`);
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport, background: '#fff' }).promise;
+        pages.append(canvas);
+      }
+      if (version === previewVersion) { preview.replaceChildren(pages); preview.setAttribute('aria-busy', 'false'); }
+    } catch (error) {
+      if (version === previewVersion) { preview.textContent = 'Pratinjau belum tersedia. Muat ulang halaman untuk mencoba lagi.'; preview.setAttribute('aria-busy', 'false'); }
+    } finally { if (task) await task.destroy(); }
   }
   function picker(input, box, isMember) {
     const menu = box.querySelector('.person-menu'), list = menu.querySelector('ul'), message = menu.querySelector('p'); let matches = [], active = -1;
