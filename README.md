@@ -50,3 +50,13 @@ Buka `qr-generator.html` melalui server lokal. Masukkan tautan HTTP(S); awalan H
 Library `qr-code-styling` 1.9.2 disertakan secara lokal di `assets/vendor/qr-code-styling/`. Bundle berasal dari paket npm resmi dan menyertakan `qrcode-generator`. Lisensi keduanya disertakan. Aplikasi tetap statis, tanpa instalasi paket atau proses build.
 
 Pemeriksaan browser yang dilakukan: tautan dari beranda, penambahan HTTPS, validasi URL, decoding QR dengan decoder independen jsQR (tautan pendek, parameter, tautan panjang, dan logo berwarna), pemuatan logo kampus otomatis, unduhan PNG, Clipboard API, serta layout pada lebar 320–1440 piksel.
+
+## Data Dosen OSP
+
+Halaman `dosen.html` memuat 17 identitas dosen dari `assets/data/dosen.json`, sesuai daftar yang diberikan pengguna berdasarkan Proposal PKM 2025. Data tidak dinormalisasi atau dikoreksi secara otomatis. NIP dan NIDN disimpan sebagai **string** agar angka panjang serta nol di depan tetap utuh.
+
+Setiap kartu menyediakan lima tombol salin terpisah: nama dan gelar, NIP, NIDN, bidang keilmuan, dan email. Clipboard hanya berisi nilai yang dipilih, tanpa label atau baris tambahan. Pencarian mencakup kelima bagian dan dapat digabungkan dengan filter bidang keilmuan. Urutan dan nomor dosen mengikuti daftar sumber, termasuk ketika hasil difilter.
+
+Penyalinan menggunakan Clipboard API pada HTTPS/localhost, dengan fallback penyalinan browser. Jika keduanya tidak tersedia, dialog menyediakan teks yang sudah dipilih untuk disalin manual. Kegagalan pemuatan data menampilkan pesan dan tombol coba ulang.
+
+Untuk memperbarui identitas, edit nilai di `assets/data/dosen.json` berdasarkan konfirmasi pemilik data. Pertahankan ejaan, gelar, tanda baca, dan tipe string seluruh nomor identitas. Tidak ada backend atau instalasi tambahan yang diperlukan.

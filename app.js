@@ -1,5 +1,6 @@
 'use strict';
 const paths = {
+ people: '<circle cx="9" cy="8" r="3"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 15a5 5 0 0 1 3 4v2"/>',
  arrow: '<path d="M5 19 19 5M5 5h14v14"/>',
  document: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 12h8M8 16h5"/>',
  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18M8 15h2M14 15h2M8 18h2"/>',
@@ -13,7 +14,8 @@ const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] 
 const tools = [
  {id:'surat-izin',name:'Surat Izin',category:'administrasi',icon:'document',tone:'peach',description:'Penyusunan surat izin sesuai format administrasi.',detail:'Aplikasi yang direncanakan untuk membantu penyusunan surat izin bagi dosen dan tenaga kependidikan. Format, isian, dan keluaran dokumen masih dalam tahap perencanaan.'},
  {id:'surat-cuti',name:'Surat Cuti',category:'administrasi',icon:'calendar',tone:'sage',description:'Penyusunan surat cuti bagi dosen dan tenaga kependidikan.',detail:'Aplikasi yang direncanakan untuk membantu penyusunan surat cuti. Jenis cuti, format surat, dan isian dokumen masih dalam tahap perencanaan.'},
- {id:'qr-generator',name:'QR Code Generator',href:'qr-generator.html',category:'utilitas',icon:'qr',tone:'lavender',description:'Pembuatan kode QR dari tautan untuk berbagi informasi.',detail:'Utilitas yang direncanakan untuk menghasilkan kode QR dari tautan. Format unduhan dan pengaturan kode QR masih dalam tahap perencanaan.'}
+ {id:'qr-generator',name:'QR Code Generator',href:'qr-generator.html',category:'utilitas',icon:'qr',tone:'lavender',description:'Pembuatan kode QR dari tautan untuk berbagi informasi.',detail:'Utilitas yang direncanakan untuk menghasilkan kode QR dari tautan. Format unduhan dan pengaturan kode QR masih dalam tahap perencanaan.'},
+ {id:'data-dosen',name:'Data Dosen OSP',href:'dosen.html',category:'informasi',icon:'people',tone:'sage',description:'Daftar identitas 17 dosen. Salin nama, NIP, NIDN, bidang keilmuan, dan email secara terpisah.'}
 ];
 const storage = { get(key,fallback){try{return JSON.parse(localStorage.getItem(key)) ?? fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}};
 let favorites = storage.get('osp-favorites',[]);
