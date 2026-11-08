@@ -48,3 +48,4 @@
 @media(max-width:480px){.tools-section .home-heading h1{font-size:clamp(26px,8vw,38px);letter-spacing:-.8px}}
 
 .footer-brand{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:-.4px}
+.header{transition:transform .25s ease}.header.header-hidden:not(:focus-within){transform:translateY(-100%)}@media(prefers-reduced-motion:reduce){.header{transition:none}}@media print{.header{transform:none!important}}
