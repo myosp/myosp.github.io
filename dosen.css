@@ -3,3 +3,4 @@
 .copy-artwork{display:grid;place-items:center;flex:none}
 
 .directory-controls.single-filter{grid-template-columns:1fr}.directory-controls.single-filter .search-box{max-width:680px}.empty-value{display:block;min-height:48px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.directory-export{display:inline-flex;align-items:center;justify-content:center;gap:9px;margin-top:22px;min-height:48px;padding:11px 16px;border:1px solid var(--accent);border-radius:7px;background:var(--accent);color:#fff;font:550 14px var(--sans);cursor:pointer}.directory-export:hover{filter:brightness(.95)}.directory-export:disabled{opacity:.55;cursor:wait}.directory-export svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}

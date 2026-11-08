@@ -12,7 +12,7 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
- {id:'surat-izin',name:'Surat Izin',category:'administrasi',icon:'document',tone:'peach',description:'Bikin surat izin tanpa ribet.',detail:'Buat surat izin dengan format yang akan disesuaikan untuk kebutuhan OSP.'},
+ {id:'surat-izin',name:'Surat Izin',href:'surat-izin.html',category:'administrasi',icon:'document',tone:'peach',description:'Izin keluar, sendiri atau bersama tim.'},
  {id:'surat-cuti',name:'Surat Cuti',href:'surat-cuti.html',category:'administrasi',icon:'calendar',tone:'sage',description:'Isi data, unduh PDF, atau langsung cetak.'},
  {id:'qr-generator',name:'QR Code Generator',href:'qr-generator.html',category:'utilitas',icon:'qr',tone:'lavender',description:'Ubah link jadi kode QR, lalu unduh.',detail:'Utilitas yang direncanakan untuk menghasilkan kode QR dari tautan. Format unduhan dan pengaturan kode QR masih dalam tahap perencanaan.'},
  {id:'data-dosen',name:'Data Dosen OSP',href:'dosen.html',category:'informasi',icon:'people',tone:'sage',description:'Copy data dosen langsung, biar nggak typo.'},

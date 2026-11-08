@@ -7,13 +7,14 @@
   <title>Data Dosen OSP — myOSP</title>
   <link rel="icon" href="assets/myosp-icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="dosen.css">
-  <script src="dosen.js" defer></script>
+  <script src="directory-excel.js" defer></script><script src="dosen.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#lecturer-search">Langsung ke pencarian dosen</a>
   <header class="header"><div class="wrap nav"><a class="brand" href="./" aria-label="myOSP, beranda"><img class="brand-mark" src="assets/myosp-icon.svg" alt="" width="38" height="38"><span><span class="brand-name"><b>my</b>OSP</span><span class="brand-label">Otomasi Sistem Permesinan</span></span></a><nav aria-label="Navigasi utama"><a href="./#tools">← Beranda</a></nav></div></header>
   <main class="wrap directory">
     <section class="directory-heading" aria-labelledby="directory-title"><div><p class="eyebrow section-index">DATA JURUSAN</p><h1 id="directory-title">Data Dosen <em>OSP</em></h1><p class="directory-intro">Cari dan copy data dosen OSP untuk kebutuhan administrasi.</p></div><div class="directory-total"><strong>17</strong><span>DOSEN</span></div></section>
+    <button id="export-excel" class="directory-export" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg>Unduh semua data Excel</button>
     <div class="copy-instruction"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><p>Tekan tombol copy di samping data yang kamu butuhkan.</p></div>
     <section class="directory-controls" aria-label="Pencarian dan filter dosen"><div class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><label class="sr-only" for="lecturer-search">Cari nama, NIP, NIDN, bidang keilmuan, atau email</label><input id="lecturer-search" type="search" placeholder="Cari nama, NIP, NIDN, atau email" autocomplete="off" aria-controls="lecturer-grid" disabled><kbd aria-hidden="true">/</kbd></div><div class="expertise-filter"><label for="expertise-filter">Bidang keilmuan</label><select id="expertise-filter" aria-controls="lecturer-grid" disabled><option value="">Semua bidang keilmuan</option></select></div></section>
     <div class="directory-meta"><p id="lecturer-count" role="status">Memuat data dosen…</p><button id="reset-directory" class="text-button" type="button" hidden>Hapus pencarian dan filter</button></div>

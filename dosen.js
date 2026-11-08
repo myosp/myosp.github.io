@@ -3,6 +3,7 @@
   const isPlp = document.body.dataset.directory === 'plp';
   const directoryLabel = isPlp ? 'PLP' : 'dosen';
   const grid = document.querySelector('#lecturer-grid');
+  const exportButton = document.querySelector('#export-excel');
   const search = document.querySelector('#lecturer-search');
   const filter = document.querySelector('#expertise-filter');
   const count = document.querySelector('#lecturer-count');
@@ -82,7 +83,7 @@
     count.textContent = `Menampilkan ${visible} dari ${lecturers.length} ${directoryLabel}`;
   }
   async function load() {
-    search.disabled = true; if (filter) filter.disabled = true;
+    search.disabled = true; exportButton.disabled = true; if (filter) filter.disabled = true;
     grid.setAttribute('aria-busy', 'true');
     loadError.hidden = true; empty.hidden = true;
     count.textContent = `Memuat data ${directoryLabel}…`;
@@ -94,7 +95,8 @@
       const data = await response.json();
       const required = isPlp ? ['name', 'nip'] : Object.keys(labels);
       if (!Array.isArray(data) || !data.length || data.some(person => !person || required.some(key => typeof person[key] !== 'string' || !person[key].trim()) || (isPlp && person.email != null && typeof person.email !== 'string'))) throw Error('Format data tidak valid.');
-      lecturers = isPlp ? data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => a.name.localeCompare(b.name, 'id', { sensitivity: 'base', numeric: true })) : data;
+      const sortName = name => name.replace(/^(?:(?:Dr|Ir|H|Hj|Prof)\.\s*)+/i, '');
+      lecturers = data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => sortName(a.name).localeCompare(sortName(b.name), 'id', { sensitivity: 'base', numeric: true }));
       document.querySelector('.directory-total strong').textContent = String(data.length);
       if (filter) {
         filter.replaceChildren(new Option('Semua bidang keilmuan', ''));
@@ -102,7 +104,7 @@
         expertise.forEach(value => filter.add(new Option(value, value)));
         filter.disabled = false;
       }
-      search.disabled = false;
+      search.disabled = false; exportButton.disabled = false;
       render();
     } catch {
       grid.replaceChildren(); loadError.hidden = false; reset.hidden = true;
@@ -157,6 +159,11 @@
     }
   });
   function resetFilters() { search.value = ''; if (filter) filter.value = ''; render(); search.focus(); }
+  exportButton.addEventListener('click', () => {
+    const columns = isPlp ? [['Nama dan gelar','name'], ['NIP','nip'], ['Email','email']] : [['Nama dan gelar','name'], ['NIP','nip'], ['NIDN','nidn'], ['Bidang keilmuan','expertise'], ['Email','email']];
+    downloadDirectoryExcel(columns, lecturers, isPlp ? 'data-plp-osp.xlsx' : 'data-dosen-osp.xlsx', isPlp ? 'Data PLP' : 'Data Dosen');
+    notify('Data berhasil diunduh.');
+  });
   search.addEventListener('input', render);
   filter?.addEventListener('change', render);
   reset.addEventListener('click', resetFilters);

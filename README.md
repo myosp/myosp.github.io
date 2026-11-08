@@ -20,7 +20,7 @@ Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, at
 - `dosen.js` dan `dosen.css`: fungsi dan tampilan bersama untuk data dosen dan PLP.
 - `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
 
-Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Cuti tersedia di `surat-cuti.html`; Surat Izin masih dalam perencanaan dan kartunya membuka penjelasan rencana. Kategori Link Penting belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
+Daftar pilihan berada pada array `tools` di `app.js` dan ditampilkan secara otomatis menurut abjad di semua kategori, termasuk favorit. QR Code Generator tersedia di `qr-generator.html`. Surat Cuti tersedia di `surat-cuti.html`; Surat Izin tersedia di `surat-izin.html` untuk izin keluar perorangan atau tim. Kategori Link Penting belum berisi link. Untuk menambahkan tautan eksternal ke array `tools`, gunakan `category: 'tautan'`, `href` URL tujuan, serta `external: true`; kartu menampilkan ikon tautan keluar dan membuka tab baru. Jumlah kategori diperbarui otomatis.
 
 Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
 
