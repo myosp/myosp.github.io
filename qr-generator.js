@@ -70,7 +70,7 @@
         cornersDotOptions: { type: 'square', color: '#17171d' },
         backgroundOptions: { color: '#ffffff' },
         image: logoData,
-        imageOptions: { hideBackgroundDots: true, imageSize: .10, margin: 8, crossOrigin: 'anonymous' }
+        imageOptions: { hideBackgroundDots: true, imageSize: .20, margin: 10, crossOrigin: 'anonymous' }
       });
       const image = await blobCanvas(await qr.getRawData('png'));
       if (ticket !== version) return;
@@ -147,7 +147,7 @@
     status.textContent = 'Memuat logo kampus…';
     try {
       const image = new Image();
-      image.src = 'assets/logo-campus.webp';
+      image.src = 'assets/logo-campus-qr.webp';
       await image.decode();
       logoData = image.src;
       input.disabled = false;

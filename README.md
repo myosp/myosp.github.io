@@ -43,7 +43,7 @@ Buka `qr-generator.html` melalui server lokal. Masukkan tautan HTTP(S); awalan H
 
 - Unduhan PNG berukuran 1088 × 1200 piksel, termasuk bingkai dan label SCAN ME.
 - Penyalinan PNG memerlukan HTTPS atau localhost dan dukungan Clipboard API. Bila akses ditolak, gunakan Unduh PNG.
-- Logo kampus dimuat otomatis dari `assets/logo-campus.webp`. Tidak ada pengaturan atau unggahan logo pada halaman generator. Logo berasal dari berkas PNG yang diberikan pengguna dan dikonversi ke WebP lossless: 28.214 → 15.880 byte, dengan piksel RGBA identik.
+- Logo kampus dimuat otomatis dari `assets/logo-campus-qr.webp`. Versi ini hanya menghapus margin transparan dari `assets/logo-campus.webp`, tanpa mengubah piksel pada lambang. Tidak ada pengaturan atau unggahan logo pada halaman generator. Logo berasal dari berkas PNG yang diberikan pengguna dan dikonversi ke WebP lossless: 28.214 → 15.880 byte, dengan piksel RGBA identik.
 - QR menggunakan tingkat koreksi kesalahan H, margin putih, dan logo dengan ukuran terbatas untuk menjaga keterbacaan. Pindai hasil unduhan sebelum distribusi.
 - Tautan dibatasi 900 byte setelah normalisasi. Tidak ada pelacakan atau pengalihan melalui server MyOSP.
 
