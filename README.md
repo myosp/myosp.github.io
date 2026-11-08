@@ -15,19 +15,19 @@ Buka `http://localhost:8000`. Tidak ada dependensi aplikasi, instalasi paket, at
 ## Struktur
 
 - `index.html`: beranda, bagian tautan penting, dan dialog.
-- `styles.css`: tema terang/gelap, layout responsif, dan motion dengan dukungan `prefers-reduced-motion`.
+- `styles.css`: tema terang, layout responsif, dan motion dengan dukungan `prefers-reduced-motion`.
 - `app.js`: katalog tools, pencarian, kategori, favorit, dan interaksi keyboard.
 - `assets/`: ikon dan font lokal. Lisensi font tersedia di `assets/fonts/`.
 
 Daftar rencana tools berada pada array `tools` di `app.js`. Surat Izin, Surat Cuti, dan QR Code Generator **belum berfungsi**; kartu membuka penjelasan rencana. Tautan penting belum diisi agar tidak mengarahkan pengguna ke tujuan sementara.
 
-Favorit dan preferensi tema disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
+Favorit disimpan di `localStorage` pada perangkat pengguna. Jika penyimpanan tidak tersedia, antarmuka tetap berjalan dan favorit hanya berlaku selama sesi. Tidak ada login, backend, analitik, atau pengiriman data formulir.
 
 ## Pemeriksaan manual
 
 - Cari nama tool; pastikan kategori dan pencarian bekerja bersamaan. Uji hasil kosong dan tombol reset.
 - Simpan favorit, pilih kategori Favorit saya, dan muat ulang untuk memeriksa persistensi.
-- Ganti tema dan muat ulang. Buka kartu atau Tentang; tutup dengan tombol atau Escape dan periksa fokus kembali.
+- Buka kartu atau Tentang; tutup dengan tombol atau Escape dan periksa fokus kembali.
 - Tekan `/` atau `Ctrl/Cmd+K` untuk menuju pencarian. Semua kontrol dapat dijangkau dengan Tab.
 - Periksa layar HP, tablet, dan desktop serta pengaturan sistem untuk mengurangi animasi.
 

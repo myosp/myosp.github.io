@@ -7,7 +7,6 @@ const paths = {
  search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>',
  star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/>',
  link:'<path d="m10 13 4-4M8 16l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M16 8l1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0) scale(.9)"/>',
- moon:'<path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/>',
  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/>'
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
@@ -44,10 +43,6 @@ function openDialog({label,title,description,note,iconName}){
  document.querySelector('#dialog-icon').innerHTML=icon(iconName);
  dialog.showModal();
 }
-function setTheme(theme){document.documentElement.dataset.theme=theme;const dark=theme==='dark';const button=document.querySelector('#theme-toggle');button.innerHTML=icon(dark?'sun':'moon');button.setAttribute('aria-label',`Aktifkan mode ${dark?'terang':'gelap'}`);document.querySelector('meta[name="theme-color"]').content=dark?'#22231f':'#faf9f5';}
-const savedTheme=storage.get('osp-theme',null);
-setTheme(['light','dark'].includes(savedTheme)?savedTheme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
-document.querySelector('#theme-toggle').addEventListener('click',()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';setTheme(theme);storage.set('osp-theme',theme);});
 document.querySelector('#search-icon').innerHTML=icon('search');
 document.querySelector('#link-icon').innerHTML=icon('link');
 document.querySelectorAll('[data-art-icon]').forEach(el=>el.innerHTML=icon(el.dataset.artIcon));
@@ -61,7 +56,7 @@ grid.addEventListener('click',e=>{
  const tool=tools.find(t=>t.id===opener.dataset.open);
  openDialog({label:'DALAM RENCANA · SEGERA HADIR',title:tool.name,description:tool.detail,note:'Aplikasi ini belum dapat digunakan. Fitur akan tersedia setelah proses pengembangan dan pengujian selesai.',iconName:tool.icon});
 });
-document.querySelectorAll('[data-about]').forEach(button=>button.addEventListener('click',()=>openDialog({label:'INFORMASI APLIKASI',title:'Tentang MyOSP',description:'MyOSP merupakan portal aplikasi dan utilitas pendukung administrasi bagi dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.',note:'Akses tidak memerlukan akun. Preferensi tema dan daftar favorit disimpan pada peramban di perangkat pengguna. MyOSP tidak berafiliasi dengan Anthropic.',iconName:'sun'})));
+document.querySelectorAll('[data-about]').forEach(button=>button.addEventListener('click',()=>openDialog({label:'INFORMASI APLIKASI',title:'Tentang MyOSP',description:'MyOSP merupakan portal aplikasi dan utilitas pendukung administrasi bagi dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.',note:'Akses tidak memerlukan akun. Daftar favorit disimpan pada peramban di perangkat pengguna. MyOSP tidak berafiliasi dengan Anthropic.',iconName:'sun'})));
 document.querySelector('#close-dialog').addEventListener('click',()=>dialog.close());
 document.querySelector('#dialog-done').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
