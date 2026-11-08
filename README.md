@@ -1,6 +1,6 @@
 # MyOSP
 
-Rumah tools untuk dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.
+Portal aplikasi dan utilitas pendukung administrasi untuk dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.
 
 ## Menjalankan secara lokal
 

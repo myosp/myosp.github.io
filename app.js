@@ -12,9 +12,9 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
- {id:'surat-izin',name:'Surat Izin',category:'administrasi',icon:'document',tone:'peach',description:'Siapkan surat izin dengan format yang rapi, tanpa mulai dari awal.',detail:'Rencana tool untuk membantu dosen dan tendik menyiapkan surat izin. Format, isian, dan hasil dokumennya akan dibahas sebelum pengembangan.'},
- {id:'surat-cuti',name:'Surat Cuti',category:'administrasi',icon:'calendar',tone:'sage',description:'Urus keperluan cuti dengan dokumen yang lebih praktis dan tertata.',detail:'Rencana tool untuk mempermudah penyiapan surat cuti. Jenis cuti, format surat, dan informasi yang diperlukan akan ditentukan bersama.'},
- {id:'qr-generator',name:'QR Code Generator',category:'utilitas',icon:'qr',tone:'lavender',description:'Dari tautan menjadi kode QR. Untuk berbagi informasi dengan mudah.',detail:'Rencana tool untuk mengubah tautan menjadi kode QR yang dapat diunduh. Pilihan format dan pengaturannya akan dibahas pada tahap berikutnya.'}
+ {id:'surat-izin',name:'Surat Izin',category:'administrasi',icon:'document',tone:'peach',description:'Penyusunan surat izin sesuai format administrasi.',detail:'Aplikasi yang direncanakan untuk membantu penyusunan surat izin bagi dosen dan tenaga kependidikan. Format, isian, dan keluaran dokumen masih dalam tahap perencanaan.'},
+ {id:'surat-cuti',name:'Surat Cuti',category:'administrasi',icon:'calendar',tone:'sage',description:'Penyusunan surat cuti bagi dosen dan tenaga kependidikan.',detail:'Aplikasi yang direncanakan untuk membantu penyusunan surat cuti. Jenis cuti, format surat, dan isian dokumen masih dalam tahap perencanaan.'},
+ {id:'qr-generator',name:'QR Code Generator',category:'utilitas',icon:'qr',tone:'lavender',description:'Pembuatan kode QR dari tautan untuk berbagi informasi.',detail:'Utilitas yang direncanakan untuk menghasilkan kode QR dari tautan. Format unduhan dan pengaturan kode QR masih dalam tahap perencanaan.'}
 ];
 const storage = { get(key,fallback){try{return JSON.parse(localStorage.getItem(key)) ?? fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}};
 let favorites = storage.get('osp-favorites',[]);
@@ -30,10 +30,10 @@ function render(){
  const query=search.value.trim().toLocaleLowerCase('id');
  const shown=tools.filter(t=>(filter==='all'||(filter==='favorites'?favorites.includes(t.id):t.category===filter))&&`${t.name} ${t.category} ${t.description}`.toLocaleLowerCase('id').includes(query));
  grid.innerHTML=shown.map((t,i)=>`<article class="tool-card ${t.tone}" style="--i:${i}"><button class="tool-open" data-open="${t.id}" aria-label="Lihat rencana ${t.name}"><div class="card-top"><span class="tool-icon">${icon(t.icon)}</span><span class="category-label">${t.category}</span></div><h3>${t.name}</h3><p>${t.description}</p><div class="card-bottom"><span class="coming-badge">Segera hadir</span><span class="card-arrow" aria-hidden="true">${icon('arrow')}</span></div></button><button class="favorite-button" data-favorite="${t.id}" aria-label="Favorit ${t.name}" aria-pressed="${favorites.includes(t.id)}" title="Simpan sebagai favorit">${icon('star')}</button></article>`).join('');
- document.querySelector('#result-count').textContent=`${shown.length} tools ${query?'ditemukan':'direncanakan'}`;
+ document.querySelector('#result-count').textContent=`${shown.length} aplikasi ${query?'ditemukan':'dalam perencanaan'}`;
  const empty=document.querySelector('#empty-state');empty.hidden=shown.length>0;
- empty.querySelector('h3').textContent=filter==='favorites'&&!query?'Belum ada tools favorit.':'Belum menemukan yang dicari?';
- empty.querySelector('p').textContent=filter==='favorites'&&!query?'Ketuk ikon bintang pada tool untuk menyimpannya di perangkat ini.':'Coba kata lain atau jelajahi semua kategori.';
+ empty.querySelector('h3').textContent=filter==='favorites'&&!query?'Belum ada aplikasi favorit.':'Tidak ada aplikasi yang sesuai.';
+ empty.querySelector('p').textContent=filter==='favorites'&&!query?'Pilih ikon bintang pada aplikasi untuk menyimpannya sebagai favorit di perangkat ini.':'Gunakan kata kunci lain atau pilih kategori yang berbeda.';
  document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));
 }
 function openDialog({label,title,description,note,iconName}){
@@ -59,18 +59,18 @@ grid.addEventListener('click',e=>{
  if(favorite){const id=favorite.dataset.favorite;const added=!favorites.includes(id);favorites=added?[...favorites,id]:favorites.filter(x=>x!==id);const persisted=storage.set('osp-favorites',favorites);render();document.querySelector(`[data-favorite="${id}"]`)?.focus({preventScroll:true});toast(persisted?(added?'Ditambahkan ke favorit di perangkat ini.':'Dihapus dari favorit.'):'Favorit diubah untuk sesi ini; penyimpanan browser tidak tersedia.');return;}
  const opener=e.target.closest('[data-open]');if(!opener)return;
  const tool=tools.find(t=>t.id===opener.dataset.open);
- openDialog({label:'DALAM RENCANA · SEGERA HADIR',title:tool.name,description:tool.detail,note:'Tool ini belum dapat digunakan. Saat ini kami sedang menyiapkan rumahnya terlebih dahulu. Fungsi akan ditambahkan secara bertahap.',iconName:tool.icon});
+ openDialog({label:'DALAM RENCANA · SEGERA HADIR',title:tool.name,description:tool.detail,note:'Aplikasi ini belum dapat digunakan. Fitur akan tersedia setelah proses pengembangan dan pengujian selesai.',iconName:tool.icon});
 });
-document.querySelectorAll('[data-about]').forEach(button=>button.addEventListener('click',()=>openDialog({label:'DARI OSP, UNTUK OSP',title:'Ruang untuk bekerja lebih ringan.',description:'MyOSP adalah kumpulan tools untuk membantu dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar, mengerjakan administrasi yang berulang.',note:'Tanpa akun. Favorit dan pilihan tema disimpan hanya di browser perangkat Anda. Identitas MyOSP berdiri sendiri; tampilan terinspirasi Claude, tanpa afiliasi dengan Anthropic.',iconName:'sun'})));
+document.querySelectorAll('[data-about]').forEach(button=>button.addEventListener('click',()=>openDialog({label:'INFORMASI APLIKASI',title:'Tentang MyOSP',description:'MyOSP merupakan portal aplikasi dan utilitas pendukung administrasi bagi dosen dan tenaga kependidikan D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.',note:'Akses tidak memerlukan akun. Preferensi tema dan daftar favorit disimpan pada peramban di perangkat pengguna. MyOSP tidak berafiliasi dengan Anthropic.',iconName:'sun'})));
 document.querySelector('#close-dialog').addEventListener('click',()=>dialog.close());
 document.querySelector('#dialog-done').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 document.addEventListener('keydown',e=>{const editing=e.target.closest('input,textarea,select,[contenteditable="true"]');if(!dialog.open&&!editing&&(e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'))){e.preventDefault();search.focus();search.scrollIntoView({block:'center'});}if(e.key==='Escape'&&document.activeElement===search){search.value='';render();search.blur();}});
 render();
-if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}});},{threshold:.08});document.querySelectorAll('.links-section,.closing-note').forEach(el=>{el.classList.add('reveal-ready');observer.observe(el);});}
+if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}});},{threshold:.08});document.querySelectorAll('.links-section').forEach(el=>{el.classList.add('reveal-ready');observer.observe(el);});}
 // Render the asterisk as vector artwork instead of platform-dependent emoji.
 const asterisk = `<svg viewBox="0 0 32 32" aria-hidden="true">${Array.from({length:6},(_,i)=>`<path d="M16 3v26" transform="rotate(${i*30} 16 16)"/>`).join('')}</svg>`;
-document.querySelectorAll('.tiny-star,.wip-icon,.closing-star,.star-one,.footer-brand>span,.paper-logo').forEach(el=>{el.innerHTML=asterisk;});
+document.querySelectorAll('.tiny-star,.wip-icon,.star-one,.footer-brand>span,.paper-logo').forEach(el=>{el.innerHTML=asterisk;});
 
 // SVG arrows stay legible even when the device lacks the Unicode glyph.
 document.querySelectorAll('span').forEach(el=>{if(el.textContent.trim()==='↗'){el.innerHTML=icon('arrow');}});
