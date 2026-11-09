@@ -15,3 +15,7 @@ test('CSV maps reordered columns and ignores blank rows', () => {
 test('CSV rejects sign-in HTML, missing or duplicate headers and malformed rows', () => {
   for (const value of ['<html>Sign in</html>', headers+',NIP\n', headers+'\nNama,001', headers+'\n"unterminated', headers+'\n"Nama"x,1,2,A,a@b']) assert.throws(() => parse(value));
 });
+test('PLP CSV preserves NIP text and permits an empty email', () => {
+  const result = context.parseLecturerCsv('Nama dan gelar,NIP,Email\n"Nama, S.T.",001234567890123456,\n', true);
+  assert.deepEqual(JSON.parse(JSON.stringify(result)), [{name:'Nama, S.T.',nip:'001234567890123456',email:''}]);
+});

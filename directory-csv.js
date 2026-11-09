@@ -1,6 +1,6 @@
 'use strict';
 // Google Sheets CSV values stay strings, including NIP and leading-zero NIDN.
-function parseLecturerCsv(csv) {
+function parseLecturerCsv(csv, isPlp = false) {
   const rows = [];
   let row = [], field = '', quoted = false, closed = false;
   const endField = () => { row.push(field); field = ''; closed = false; };
@@ -25,8 +25,8 @@ function parseLecturerCsv(csv) {
   }
   if (quoted) throw Error('Format CSV tidak valid.');
   endRow();
-  const headers = ['Nama dan gelar', 'NIP', 'NIDN', 'Bidang keilmuan', 'Email'];
-  const keys = ['name', 'nip', 'nidn', 'expertise', 'email'];
+  const headers = isPlp ? ['Nama dan gelar', 'NIP', 'Email'] : ['Nama dan gelar', 'NIP', 'NIDN', 'Bidang keilmuan', 'Email'];
+  const keys = isPlp ? ['name', 'nip', 'email'] : ['name', 'nip', 'nidn', 'expertise', 'email'];
   const header = rows.shift()?.map(value => value.trim());
   if (!header || headers.some(value => header.filter(item => item === value).length !== 1)) throw Error('Kolom CSV tidak sesuai.');
   const indexes = headers.map(value => header.indexOf(value));
