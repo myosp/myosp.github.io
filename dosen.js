@@ -92,8 +92,7 @@
       const data = await loadDirectoryData(isPlp ? 'plp' : 'dosen', abort.signal);
       const required = isPlp ? ['name', 'nip'] : Object.keys(labels);
       if (!Array.isArray(data) || !data.length || data.some(person => !person || required.some(key => typeof person[key] !== 'string' || !person[key].trim()) || (isPlp && person.email != null && typeof person.email !== 'string'))) throw Error('Format data tidak valid.');
-      const sortName = name => name.replace(/^(?:(?:Dr|Ir|H|Hj|Prof)\.\s*)+/i, '');
-      lecturers = data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => sortName(a.name).localeCompare(sortName(b.name), 'id', { sensitivity: 'base', numeric: true }));
+      lecturers = data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => a.nip.localeCompare(b.nip));
       document.querySelector('.directory-total strong').textContent = String(data.length);
       if (filter) {
         filter.replaceChildren(new Option('Semua bidang keilmuan', ''));
