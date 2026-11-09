@@ -122,11 +122,9 @@
     fields.disabled = true;
     loadError.hidden = true;
     try {
-      const paths = ['assets/data/dosen.json', 'assets/data/plp.json'];
+      const paths = ['dosen', 'plp'];
       const lists = await Promise.all(paths.map(async path => {
-        const response = await fetch(path, { cache: 'no-cache' });
-        if (!response.ok) throw Error('Data tidak tersedia');
-        const data = await response.json();
+        const data = await loadDirectoryData(path);
         if (!Array.isArray(data) || !data.length || data.some(person => !person || typeof person.name !== 'string' || !person.name.trim() || typeof person.nip !== 'string' || !/^\d{18}$/.test(person.nip))) throw Error('Data pemohon tidak valid');
         return data;
       }));
