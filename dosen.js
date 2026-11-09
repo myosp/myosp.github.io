@@ -81,31 +81,34 @@
     reset.hidden = !words.length && !selected;
     count.textContent = `Menampilkan ${visible} dari ${lecturers.length} ${directoryLabel}`;
   }
+  function applyData(data) {
+    const required = isPlp ? ['name', 'nip'] : Object.keys(labels);
+    if (!Array.isArray(data) || !data.length || data.some(person => !person || required.some(key => typeof person[key] !== 'string' || !person[key].trim()) || (isPlp && person.email != null && typeof person.email !== 'string'))) throw Error('Format data tidak valid.');
+    lecturers = data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => a.nip.localeCompare(b.nip));
+    document.querySelector('.directory-total strong').textContent = String(data.length);
+    if (filter) {
+      const selected = filter.value;
+      filter.replaceChildren(new Option('Semua bidang keilmuan', ''));
+      const expertise = [...new Set(data.map(person => person.expertise))].sort((a, b) => a.localeCompare(b, 'id'));
+      expertise.forEach(value => filter.add(new Option(value, value)));
+      if (expertise.includes(selected)) filter.value = selected;
+      filter.disabled = false;
+    }
+    search.disabled = false;
+    render();
+  }
   async function load() {
     search.disabled = true; if (filter) filter.disabled = true;
     grid.setAttribute('aria-busy', 'true');
     loadError.hidden = true; empty.hidden = true;
     count.textContent = `Memuat data ${directoryLabel}…`;
-    const abort = new AbortController();
-    const timeout = setTimeout(() => abort.abort(), 12000);
     try {
-      const data = await loadDirectoryData(isPlp ? 'plp' : 'dosen', abort.signal);
-      const required = isPlp ? ['name', 'nip'] : Object.keys(labels);
-      if (!Array.isArray(data) || !data.length || data.some(person => !person || required.some(key => typeof person[key] !== 'string' || !person[key].trim()) || (isPlp && person.email != null && typeof person.email !== 'string'))) throw Error('Format data tidak valid.');
-      lecturers = data.map(person => ({ ...person, email: person.email || '' })).sort((a, b) => a.nip.localeCompare(b.nip));
-      document.querySelector('.directory-total strong').textContent = String(data.length);
-      if (filter) {
-        filter.replaceChildren(new Option('Semua bidang keilmuan', ''));
-        const expertise = [...new Set(data.map(person => person.expertise))].sort((a, b) => a.localeCompare(b, 'id'));
-        expertise.forEach(value => filter.add(new Option(value, value)));
-        filter.disabled = false;
-      }
-      search.disabled = false;
-      render();
+      const data = await loadDirectoryData(isPlp ? 'plp' : 'dosen', undefined, applyData);
+      applyData(data);
     } catch {
       grid.replaceChildren(); loadError.hidden = false; reset.hidden = true;
       count.textContent = 'Data belum tersedia.';
-    } finally { clearTimeout(timeout); grid.setAttribute('aria-busy', 'false'); }
+    } finally { grid.setAttribute('aria-busy', 'false'); }
   }
   function notify(message) {
     const toast = document.querySelector('#directory-toast');
