@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf9f5">
+  <meta name="description" content="Salin Asisten Repo Starter Kit untuk menyiapkan asisten kerja persisten di repository Anda.">
+  <title>Asisten Repo Starter Kit — myOSP</title>
+  <link rel="icon" href="assets/myosp-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="prompt-repo.css">
+  <script src="prompt-repo.js" defer></script>
+  <script src="header.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#copy-prompt">Langsung ke salin prompt</a>
+  <header class="header"><div class="wrap nav"><a class="brand" href="./" aria-label="myOSP, beranda"><img class="brand-mark" src="assets/myosp-icon.svg" alt="" width="38" height="38"><span><span class="brand-name"><b>my</b>OSP</span><span class="brand-label">Otomasi Sistem Permesinan</span></span></a><nav aria-label="Navigasi utama"><a href="./#tools">← Beranda</a></nav></div></header>
+  <main class="wrap prompt-page">
+    <section aria-labelledby="prompt-title">
+      <p class="eyebrow section-index">PROMPT DEWA · STARTER KIT</p>
+      <h1 id="prompt-title">Asisten Repo<br><em>Starter Kit</em></h1>
+      <p class="prompt-intro">Ubah repo atau folder kerja menjadi asisten yang menyimpan konteks lewat file di repo. Salin prompt ini saat pertama kali menyiapkan asisten Anda.</p>
+      <aside class="prompt-requirement" aria-label="Syarat penggunaan"><strong>Syarat penggunaan: fitur berbayar.</strong><p>Gunakan akun atau akses berbayar yang mendukung agent untuk membaca dan mengubah file di repo. Menyalin prompt di myOSP tidak memerlukan login.</p></aside>
+    </section>
+    <section class="prompt-guide" aria-labelledby="guide-title">
+      <h2 id="guide-title">Cara pakai</h2>
+      <ol>
+        <li>Backup folder kerja Anda, lalu buka repo atau folder tersebut di tool AI yang digunakan.</li>
+        <li>Tekan <strong>Salin prompt</strong>, lalu tempel seluruh isinya ke percakapan agent saat setup pertama.</li>
+        <li>Kirim prompt, jawab pertanyaan tentang peran asisten, lalu periksa dan setujui rencana sebelum agent mengubah file lama.</li>
+      </ol>
+      <p class="prompt-compatibility">Dokumen ini disiapkan untuk <strong>Claude Code</strong> dan <strong>Codex</strong>. Untuk <strong>Antigravity</strong>, sesuaikan petunjuk file aturan dan cara menjalankan agent dengan fitur yang tersedia di tool tersebut.</p>
+    </section>
+    <section class="prompt-content" aria-labelledby="content-title" aria-busy="true" id="prompt-content">
+      <div class="prompt-actions">
+        <div><h2 id="content-title">Prompt lengkap</h2><p>Markdown asli, termasuk heading, daftar, tabel, dan blok kode.</p></div>
+        <button class="primary-button" id="copy-prompt" type="button" disabled>Salin prompt</button>
+      </div>
+      <p id="prompt-status" role="status" aria-live="polite">Memuat prompt…</p>
+      <div class="prompt-error" id="prompt-error" role="alert" hidden><p>Prompt belum dapat dimuat. Coba lagi atau buka file Markdown langsung.</p><button class="text-button" id="retry-prompt" type="button">Muat ulang prompt</button></div>
+      <label class="sr-only" for="prompt-text">Isi prompt dalam Markdown asli</label>
+      <textarea id="prompt-text" readonly spellcheck="false" rows="20" aria-describedby="prompt-status" placeholder="Isi prompt akan tampil di sini."></textarea>
+      <a class="text-button" href="assets/prompts/asisten-repo-starter-kit.md" download>Unduh file Markdown</a>
+    </section>
+  </main>
+  <footer class="wrap footer"><div><a class="footer-brand" href="./">myOSP</a><p>D3 Otomasi Sistem Permesinan · Politeknik ATI Makassar</p></div><a class="text-button" href="./#tools">Kembali ke beranda</a></footer>
+  <noscript><p class="noscript">Aktifkan JavaScript untuk tombol salin, atau <a href="assets/prompts/asisten-repo-starter-kit.md">buka file Markdown</a> dan salin isinya.</p></noscript>
+</body>
+</html>
