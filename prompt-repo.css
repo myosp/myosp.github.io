@@ -18,3 +18,26 @@
 #prompt-text:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .prompt-error{padding:14px 18px;background:var(--soft);border-radius:8px}
 @media(max-width:700px){.prompt-page{padding-top:34px;padding-bottom:35px}.prompt-page h1{font-size:43px}.prompt-intro{font-size:16px}.prompt-actions{align-items:stretch;flex-direction:column;gap:15px}.prompt-actions button{width:100%}.prompt-requirement{padding:18px}.prompt-guide h2,.prompt-content h2{font-size:28px}#prompt-text{font-size:16px;padding:15px;min-height:320px}}
+
+.prompt-explainer,.prompt-guide{margin-top:34px}
+.prompt-explainer h2,.prompt-manual-files h2{font-size:30px;letter-spacing:-.6px}
+.prompt-section-intro{color:var(--muted);line-height:1.85;margin:12px 0 20px}
+.prompt-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.prompt-features>div{padding:20px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+.prompt-features dt{font-weight:600;font-size:16px;line-height:1.5}
+.prompt-features dd{margin:9px 0 0;color:var(--muted);line-height:1.85}
+.prompt-page code{font-size:.95em;overflow-wrap:anywhere}
+.prompt-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+.prompt-table-wrap:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.prompt-table{border-collapse:collapse;width:100%;min-width:580px;text-align:left;line-height:1.8}
+.prompt-table th,.prompt-table td{vertical-align:top;padding:16px;border-bottom:1px solid var(--line)}
+.prompt-table thead{background:var(--soft)}
+.prompt-table th{font-weight:550}
+.prompt-table tbody th{width:22%}
+.prompt-table tbody td{width:39%}
+.prompt-table tr:last-child th,.prompt-table tr:last-child td{border-bottom:0}
+.prompt-manual-files{margin-top:30px;padding:24px;border:1px solid var(--line);border-radius:10px;background:var(--soft);line-height:1.85}
+.prompt-manual-files ol{padding-left:23px}
+.prompt-manual-files li{margin:10px 0;padding-left:4px}
+.prompt-manual-files p:last-child{margin-bottom:0}
+@media(max-width:700px){.prompt-features{grid-template-columns:1fr}.prompt-features>div{padding:18px}.prompt-explainer h2,.prompt-manual-files h2{font-size:28px}.prompt-manual-files{padding:18px}.prompt-table th,.prompt-table td{padding:13px}}
