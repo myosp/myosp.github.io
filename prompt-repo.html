@@ -22,14 +22,54 @@
       <p class="prompt-intro">Ubah repo atau folder kerja menjadi asisten yang menyimpan konteks lewat file di repo. Salin prompt ini saat pertama kali menyiapkan asisten Anda.</p>
       <aside class="prompt-requirement" aria-label="Syarat penggunaan"><strong>Syarat penggunaan: fitur berbayar.</strong><p>Gunakan akun atau akses berbayar yang mendukung agent untuk membaca dan mengubah file di repo. Menyalin prompt di myOSP tidak memerlukan login.</p></aside>
     </section>
+    <section class="prompt-explainer" aria-labelledby="features-title">
+      <h2 id="features-title">Asisten ini bisa membantu apa?</h2>
+      <p class="prompt-section-intro">Setelah setup disetujui, agent bekerja mengikuti peran yang Anda tentukan, misalnya asisten penelitian, pengabdian, SKP, atau sekretaris unit.</p>
+      <dl class="prompt-features">
+        <div><dt>Melanjutkan konteks antar sesi</dt><dd>Menyimpan progres, keputusan, dan preferensi dalam file repo. Saat sesi baru dimulai, agent membaca catatan tersebut untuk melanjutkan pekerjaan.</dd></div>
+        <div><dt>Menyimpan dan merapikan file masuk</dt><dd>Saat Anda memberi lampiran atau path file yang bisa diakses agent, Auto-Ingest menyimpan salinannya di repo, membaca isi, menentukan folder dan nama standar, lalu mencatatnya di log. Jika tujuan file belum jelas, agent bertanya.</dd></div>
+        <div><dt>Menata file kerja lama</dt><dd>Agent mengusulkan struktur folder dan rencana penamaan. Pemindahan file lama dilakukan setelah Anda menyetujui rencana, dengan riwayat perubahan tetap dicatat.</dd></div>
+        <div><dt>Membantu menyusun berbagai laporan</dt><dd>Gunakan data yang tersedia untuk membuat draf laporan penelitian, pengabdian, SKP, akreditasi, notulen, atau rekap sesuai peran asisten. Jelaskan tujuan, periode, pembaca, dan template; periksa hasil sebelum dipakai resmi.</dd></div>
+        <div><dt>Mengaudit dan menyelaraskan repo</dt><dd>Prosedur <code>/sync</code> mencari duplikat, file salah tempat, nama yang tidak konsisten, antrean yang tertinggal, dan informasi usang. Agent menampilkan usulan sebelum melakukan perubahan.</dd></div>
+        <div><dt>Menyiapkan status dan serah terima</dt><dd><code>/status</code> membantu memulai sesi dengan progres dan langkah berikutnya. <code>/handoff</code> menutup sesi dengan catatan pekerjaan, keputusan, dan hal yang perlu dilanjutkan.</dd></div>
+      </dl>
+    </section>
     <section class="prompt-guide" aria-labelledby="guide-title">
-      <h2 id="guide-title">Cara pakai</h2>
+      <h2 id="guide-title">Setup pertama kali</h2>
       <ol>
         <li>Backup folder kerja Anda, lalu buka repo atau folder tersebut di tool AI yang digunakan.</li>
         <li>Tekan <strong>Salin prompt</strong>, lalu tempel seluruh isinya ke percakapan agent saat setup pertama.</li>
         <li>Kirim prompt, jawab pertanyaan tentang peran asisten, lalu periksa dan setujui rencana sebelum agent mengubah file lama.</li>
       </ol>
       <p class="prompt-compatibility">Dokumen ini disiapkan untuk <strong>Claude Code</strong> dan <strong>Codex</strong>. Untuk <strong>Antigravity</strong>, sesuaikan petunjuk file aturan dan cara menjalankan agent dengan fitur yang tersedia di tool tersebut.</p>
+    </section>
+    <section class="prompt-explainer" aria-labelledby="daily-title">
+      <h2 id="daily-title">Rutinitas setelah setup</h2>
+      <p class="prompt-section-intro">Starter kit cukup dijalankan sekali saat penyiapan. Pada sesi berikutnya, buka repo yang sama dan gunakan prosedur berikut.</p>
+      <div class="prompt-table-wrap" role="region" aria-labelledby="daily-title" tabindex="0">
+        <table class="prompt-table">
+          <thead><tr><th scope="col">Kapan?</th><th scope="col">Yang Anda ketik atau lakukan</th><th scope="col">Hasil yang diminta dari agent</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Mulai sesi baru</th><td><code>/status</code></td><td>Membaca status, catatan serah terima, dan perubahan terakhir; merangkum progres, hambatan, serta tiga langkah prioritas.</td></tr>
+            <tr><th scope="row">Ada file baru</th><td>Lampirkan file atau berikan path yang bisa diakses agent.</td><td>Auto-Ingest menyimpan, menganalisis, menamai, dan menempatkan file serta memperbarui log dan status. Nama yang bentrok diberi versi; file lama tidak ditimpa.</td></tr>
+            <tr><th scope="row">Menyusun laporan</th><td><code>/lapor</code>, lalu jelaskan kebutuhan. Contoh: “Buat draf laporan pengabdian semester ini berdasarkan dokumen di repo dan template yang saya berikan.”</td><td>Mengonfirmasi tujuan, periode, dan pembaca; mengumpulkan bahan; menyimpan draf di folder laporan sesuai gaya yang disepakati.</td></tr>
+            <tr><th scope="row">Audit berkala atau setelah banyak perubahan</th><td><code>/sync</code></td><td>Memeriksa kerapian file dan kesesuaian catatan kerja. Anda meninjau usulan; perubahan dilakukan setelah disetujui dan hal usang diarsipkan.</td></tr>
+            <tr><th scope="row">Sebelum menutup sesi</th><td><code>/handoff</code></td><td>Mencatat yang selesai, belum selesai, keputusan, dan langkah berikutnya; memperbarui status, memori, dan log agar sesi berikutnya bisa dilanjutkan.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prompt-compatibility">Jika slash command tidak tersedia di tool Anda, tulis instruksinya sebagai kalimat biasa, misalnya <q>Jalankan prosedur /status di AGENTS.md</q> untuk Codex, atau rujuk <code>CLAUDE.md</code> untuk Claude Code.</p>
+    </section>
+    <section class="prompt-manual-files" aria-labelledby="manual-files-title">
+      <h2 id="manual-files-title">Kalau file dimasukkan manual?</h2>
+      <p><strong>Ada mekanismenya.</strong> Aturan starter kit meminta agent mengecek file baru yang belum tercatat di <code>INGEST_LOG.md</code> pada awal setiap sesi.</p>
+      <ol>
+        <li>Letakkan file di folder repo melalui File Explorer atau pengelola file Anda.</li>
+        <li>Saat membuka sesi baru di repo yang sama, agent diminta memeriksa file yang belum tercatat dan memprosesnya lewat Auto-Ingest. Jika sesi sudah terbuka, beri tahu agent lokasi file yang baru ditambahkan.</li>
+        <li>Untuk pemeriksaan menyeluruh, jalankan <code>/sync</code>. Tinjau usulan penamaan, lokasi, duplikat, dan catatan yang perlu diperbarui sebelum menyetujui perubahan.</li>
+      </ol>
+      <p>Sinkronisasi di sini berarti menyelaraskan file, struktur folder, dan catatan kerja di repo. Agent juga diminta mengingatkan sync jika sudah lebih dari 30 hari atau lebih dari 20 file baru sejak sync terakhir; pelaksanaannya tetap menunggu perintah Anda.</p>
+      <p><strong>Berjalan saat sesi agent aktif.</strong> Agent tidak memantau folder ketika sesi ditutup. Pemrosesan file memerlukan akses agent ke repo dan file tersebut. Satu repo menyimpan konteks satu asisten; catatan kerja pribadi tetap dijaga di repo Anda.</p>
     </section>
     <section class="prompt-content" aria-labelledby="content-title" aria-busy="true" id="prompt-content">
       <div class="prompt-actions">
