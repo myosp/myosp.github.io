@@ -49,3 +49,21 @@
 
 .footer-brand{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:-.4px}
 .header{transition:transform .25s ease}.header.header-hidden:not(:focus-within){transform:translateY(-100%)}@media(prefers-reduced-motion:reduce){.header{transition:none}}@media print{.header{transform:none!important}}
+
+/* Important links open as three category cards, then a compact link list. */
+.link-group-count{display:flex;align-items:center;gap:7px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--accent)}
+.link-group-count svg{width:13px;height:13px}
+dialog.link-dialog{width:min(620px,calc(100% - 32px))}
+.link-dialog .dialog-icon{margin:16px 0}
+.link-dialog .dialog-note{margin:15px 0;font-size:12px;padding:10px 13px}
+.dialog-links{display:grid;gap:9px;margin:16px 0 23px}
+.dialog-link{display:flex;gap:12px;align-items:center;padding:15px;border:1px solid var(--line);border-radius:9px;background:var(--surface);transition:border-color .2s,background .2s}
+.dialog-link:hover{border-color:var(--orange);background:var(--soft)}
+.dialog-link-icon{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:9px;background:var(--sage);color:#69795b}
+.dialog-link-icon svg{width:20px;height:20px}
+.dialog-link-copy{display:grid;gap:4px;min-width:0}
+.dialog-link-copy strong{font-size:14px;line-height:1.5;font-weight:550;overflow-wrap:anywhere}
+.dialog-link-copy>span{font-size:12px;line-height:1.7;color:var(--muted)}
+.dialog-link-arrow{margin-left:auto;color:var(--accent);flex:none}
+.dialog-link-arrow svg{width:16px;height:16px}
+@media(max-width:700px){.link-dialog .dialog-content{padding:22px}.dialog-link{padding:12px;gap:10px}.dialog-link-icon{width:33px;height:33px}}
