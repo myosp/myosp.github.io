@@ -14,24 +14,146 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
- {"id":"panduan-pkm","name":"Panduan PKM","href":"https://drive.google.com/file/d/1Fn7PJejd6YXhX6dN12tM3JwRSUXeb8ZG/view","category":"tautan","group":"Tridharma · Pengabdian","external":true,"icon":"document","tone":"peach","description":"Mau pengabdian? Cek panduan PKM dulu, biar siap jalan."},
- {"id":"sinta-atim","name":"SINTA Score · Politeknik ATI Makassar","href":"https://sinta.kemdiktisaintek.go.id/affiliations/authors/4470","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"campus","tone":"sage","description":"Cek skor dan jejak riset dosen se-kampus."},
- {"id":"sinta-osp","name":"SINTA Score · Otomasi Sistem Permesinan","href":"https://sinta.kemdiktisaintek.go.id/departments/authors/4470/A040E80D-C39D-4FD8-8030-A25F762D5C2E/E6F025F6-85A4-458F-B964-5C966BE5EA46","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"people","tone":"sage","description":"Intip skor dan jejak riset keluarga OSP."},
- {"id":"panduan-penelitian-mandiri","name":"Panduan Penelitian Mandiri ATIM","href":"https://drive.google.com/file/d/1BHWlIk0aUS-ZR-_g2jUpo_2TphJ2Pkdx/view","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"document","tone":"peach","description":"Mau penelitian mandiri? Cek panduannya dulu."},
- {"id":"jurnal-osp","name":"Jurnal OSP","href":"https://journal.atim.ac.id/index.php/jeat/login?source=%2Findex.php%2Fjeat%2Fsubmissions#unassigned","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"book","tone":"lavender","description":"Masuk ke jurnal OSP, lanjut urus naskahmu."},
- {"id":"siakad","name":"SIAKAD ATI Makassar","href":"https://siakad.atim.ac.id/","category":"tautan","group":"Tridharma · Pengajaran","external":true,"icon":"campus","tone":"sage","description":"Urusan akademik, langsung ke SIAKAD."},
- {"id":"edlink","name":"EdLink","href":"https://edlink.id/panel","category":"tautan","group":"Tridharma · Pengajaran","external":true,"icon":"book","tone":"lavender","description":"Kelas, materi, dan tugas. E-learning sat-set."},
- {id:'asisten-repo',name:'Asisten Repo Starter Kit',href:'prompt-repo.html',category:'prompt',icon:'document',tone:'lavender',description:'Siapkan asisten di repo Anda. Salin prompt · perlu fitur berbayar.'},
- {id:'surat-izin',name:'Surat Izin Keluar (Hari Kerja)',href:'surat-izin.html',category:'administrasi',icon:'document',tone:'peach',description:'Izin keluar, sendiri atau bersama tim.'},
- {id:'surat-cuti',name:'Surat Cuti',href:'surat-cuti.html',category:'administrasi',icon:'calendar',tone:'sage',description:'Isi data, unduh PDF, atau langsung cetak.'},
- {id:'qr-generator',name:'QR Code Generator',href:'qr-generator.html',category:'utilitas',icon:'qr',tone:'lavender',description:'Ubah link jadi kode QR, lalu unduh.'},
- {id:'data-dosen',name:'Data Dosen OSP',href:'dosen.html',category:'informasi',icon:'people',tone:'sage',description:'Copy data dosen langsung, biar nggak typo.'},
- {id:'data-plp',name:'Data PLP OSP',href:'plp.html',category:'informasi',icon:'people',tone:'sage',description:'Copy nama, NIP, dan email PLP OSP.'}
+ {
+  "id": "link-pengajaran",
+  "name": "Pengajaran",
+  "icon": "book",
+  "tone": "sage",
+  "description": "SIAKAD dan e-learning, tinggal pilih.",
+  "category": "tautan",
+  "links": [
+   {
+    "id": "siakad",
+    "name": "SIAKAD ATI Makassar",
+    "href": "https://siakad.atim.ac.id/",
+    "description": "Urusan akademik, langsung ke SIAKAD.",
+    "icon": "campus"
+   },
+   {
+    "id": "edlink",
+    "name": "EdLink",
+    "href": "https://edlink.id/panel",
+    "description": "Kelas, materi, dan tugas. E-learning sat-set.",
+    "icon": "book"
+   }
+  ]
+ },
+ {
+  "id": "link-penelitian",
+  "name": "Penelitian",
+  "icon": "document",
+  "tone": "lavender",
+  "description": "Skor SINTA, panduan riset, dan jurnal OSP.",
+  "category": "tautan",
+  "links": [
+   {
+    "id": "sinta-atim",
+    "name": "SINTA Score · Politeknik ATI Makassar",
+    "href": "https://sinta.kemdiktisaintek.go.id/affiliations/authors/4470",
+    "description": "Cek skor dan jejak riset dosen se-kampus.",
+    "icon": "campus"
+   },
+   {
+    "id": "sinta-osp",
+    "name": "SINTA Score · Otomasi Sistem Permesinan",
+    "href": "https://sinta.kemdiktisaintek.go.id/departments/authors/4470/A040E80D-C39D-4FD8-8030-A25F762D5C2E/E6F025F6-85A4-458F-B964-5C966BE5EA46",
+    "description": "Intip skor dan jejak riset keluarga OSP.",
+    "icon": "people"
+   },
+   {
+    "id": "panduan-penelitian-mandiri",
+    "name": "Panduan Penelitian Mandiri ATIM",
+    "href": "https://drive.google.com/file/d/1BHWlIk0aUS-ZR-_g2jUpo_2TphJ2Pkdx/view",
+    "description": "Mau penelitian mandiri? Cek panduannya dulu.",
+    "icon": "document"
+   },
+   {
+    "id": "jurnal-osp",
+    "name": "Jurnal OSP",
+    "href": "https://journal.atim.ac.id/index.php/jeat/login?source=%2Findex.php%2Fjeat%2Fsubmissions#unassigned",
+    "description": "Masuk ke jurnal OSP, lanjut urus naskahmu.",
+    "icon": "book"
+   }
+  ]
+ },
+ {
+  "id": "link-pengabdian",
+  "name": "Pengabdian",
+  "icon": "people",
+  "tone": "peach",
+  "description": "Panduan PKM untuk kegiatan pengabdian.",
+  "category": "tautan",
+  "links": [
+   {
+    "id": "panduan-pkm",
+    "name": "Panduan PKM",
+    "href": "https://drive.google.com/file/d/1Fn7PJejd6YXhX6dN12tM3JwRSUXeb8ZG/view",
+    "description": "Mau pengabdian? Cek panduan PKM dulu, biar siap jalan.",
+    "icon": "document"
+   }
+  ]
+ },
+ {
+  "id": "asisten-repo",
+  "name": "Asisten Repo Starter Kit",
+  "href": "prompt-repo.html",
+  "category": "prompt",
+  "icon": "document",
+  "tone": "lavender",
+  "description": "Siapkan asisten di repo Anda. Salin prompt · perlu fitur berbayar."
+ },
+ {
+  "id": "surat-izin",
+  "name": "Surat Izin Keluar (Hari Kerja)",
+  "href": "surat-izin.html",
+  "category": "administrasi",
+  "icon": "document",
+  "tone": "peach",
+  "description": "Izin keluar, sendiri atau bersama tim."
+ },
+ {
+  "id": "surat-cuti",
+  "name": "Surat Cuti",
+  "href": "surat-cuti.html",
+  "category": "administrasi",
+  "icon": "calendar",
+  "tone": "sage",
+  "description": "Isi data, unduh PDF, atau langsung cetak."
+ },
+ {
+  "id": "qr-generator",
+  "name": "QR Code Generator",
+  "href": "qr-generator.html",
+  "category": "utilitas",
+  "icon": "qr",
+  "tone": "lavender",
+  "description": "Ubah link jadi kode QR, lalu unduh."
+ },
+ {
+  "id": "data-dosen",
+  "name": "Data Dosen OSP",
+  "href": "dosen.html",
+  "category": "informasi",
+  "icon": "people",
+  "tone": "sage",
+  "description": "Copy data dosen langsung, biar nggak typo."
+ },
+ {
+  "id": "data-plp",
+  "name": "Data PLP OSP",
+  "href": "plp.html",
+  "category": "informasi",
+  "icon": "people",
+  "tone": "sage",
+  "description": "Copy nama, NIP, dan email PLP OSP."
+ }
 ];
 const storage = { get(key,fallback){try{return JSON.parse(localStorage.getItem(key)) ?? fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}};
 let favorites = storage.get('osp-favorites',[]);
 if(!Array.isArray(favorites)) favorites=[];
-favorites = favorites.filter(id=>tools.some(tool=>tool.id===id));
+// Keep existing link favorites when their cards become category cards.
+const linkFavoriteGroups = {"siakad":"link-pengajaran","edlink":"link-pengajaran","sinta-atim":"link-penelitian","sinta-osp":"link-penelitian","panduan-penelitian-mandiri":"link-penelitian","jurnal-osp":"link-penelitian","panduan-pkm":"link-pengabdian"};
+favorites = [...new Set(favorites.map(id=>linkFavoriteGroups[id] || id))].filter(id=>tools.some(tool=>tool.id===id));
 let filter='all';
 const search=document.querySelector('#tool-search');
 const grid=document.querySelector('#tool-grid');
@@ -40,20 +162,47 @@ let toastTimer;
 function toast(message){const el=document.querySelector('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),3000);}
 function render(){
  const query=search.value.trim().toLocaleLowerCase('id');
- const shown=tools.filter(t=>(filter==='all'||(filter==='favorites'?favorites.includes(t.id):t.category===filter))&&`${t.name} ${t.category} ${t.group || ''} ${t.description}`.toLocaleLowerCase('id').includes(query)).sort((a,b)=>a.name.localeCompare(b.name,'id',{sensitivity:'base',numeric:true}));
- grid.innerHTML=shown.map((t,i)=>`<article class="tool-card ${t.tone}" style="--i:${i}"><${t.href?'a':'button'} class="tool-open" ${t.href?`href="${t.href}"${t.external?' target="_blank" rel="noopener noreferrer"':''}`:`data-open="${t.id}"`} aria-label="${t.href?'Buka':'Lihat rencana'} ${t.name}${t.external?' (buka di tab baru)':''}"><div class="card-top"><span class="tool-icon">${icon(t.icon)}</span><span class="category-label">${t.group || (t.category==='utilitas'?'Tools':t.category==='informasi'?'Data & Info':t.category==='tautan'?'Link Penting':t.category==='prompt'?'PROMPT DEWA':t.category)}</span></div><h3>${t.name}${t.external?` <span class="external-indicator" aria-hidden="true">${icon('arrow')}</span>`:''}</h3><p>${t.description}</p></${t.href?'a':'button'}><button class="favorite-button" data-favorite="${t.id}" aria-label="Favorit ${t.name}" aria-pressed="${favorites.includes(t.id)}" title="Simpan sebagai favorit">${icon('star')}</button></article>`).join('');
+ const shown=tools.filter(t=>(filter==='all'||(filter==='favorites'?favorites.includes(t.id):t.category===filter))&&`${t.name} ${t.category} ${t.description} ${(t.links || []).map(link=>`${link.name} ${link.description}`).join(' ')}`.toLocaleLowerCase('id').includes(query)).sort((a,b)=>a.name.localeCompare(b.name,'id',{sensitivity:'base',numeric:true}));
+ grid.innerHTML=shown.map((t,i)=>`<article class="tool-card ${t.tone}" style="--i:${i}"><${t.href?'a':'button'} class="tool-open" ${t.href?`href="${t.href}"${t.external?' target="_blank" rel="noopener noreferrer"':''}`:`data-open="${t.id}" aria-haspopup="dialog"`} aria-label="${t.href || t.links?'Buka':'Lihat rencana'} ${t.name}${t.external?' (buka di tab baru)':''}"><div class="card-top"><span class="tool-icon">${icon(t.icon)}</span><span class="category-label">${t.group || (t.category==='utilitas'?'Tools':t.category==='informasi'?'Data & Info':t.category==='tautan'?'Link Penting':t.category==='prompt'?'PROMPT DEWA':t.category)}</span></div><h3>${t.name}${t.external?` <span class="external-indicator" aria-hidden="true">${icon('arrow')}</span>`:''}</h3><p>${t.description}</p>${t.links?`<span class="link-group-count">${t.links.length} tautan ${icon('arrow')}</span>`:''}</${t.href?'a':'button'}><button class="favorite-button" data-favorite="${t.id}" aria-label="Favorit ${t.name}" aria-pressed="${favorites.includes(t.id)}" title="Simpan sebagai favorit">${icon('star')}</button></article>`).join('');
  document.querySelector('#result-count').textContent=`${shown.length} pilihan`;
  const empty=document.querySelector('#empty-state');empty.hidden=shown.length>0;
  empty.querySelector('h3').textContent=filter==='favorites'&&!query?'Belum ada favorit.':filter==='tautan'&&!query?'Belum ada link penting.':filter==='prompt'&&!query?'Belum ada prompt.':'Belum ketemu nih.';
  empty.querySelector('p').textContent=filter==='favorites'&&!query?'Tekan ikon bintang untuk menyimpan favorit.':filter==='tautan'&&!query?'Link penting akan ditambahkan di sini.':filter==='prompt'&&!query?'Prompt akan ditambahkan di sini.':'Coba kata kunci atau kategori lain.';
  document.querySelectorAll('[data-filter]').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.filter===filter));const badge=b.querySelector('span:not(.filter-star)');if(badge)badge.textContent=String(b.dataset.filter==='all'?tools.length:tools.filter(t=>t.category===b.dataset.filter).length);});
 }
-function openDialog({label,title,description,note,iconName}){
+function openDialog({label,title,description,note,iconName,links=[]}){
  document.querySelector('#dialog-label').textContent=label;
  document.querySelector('#dialog-title').textContent=title;
  document.querySelector('#dialog-description').textContent=description;
  document.querySelector('#dialog-note').textContent=note;
  document.querySelector('#dialog-icon').innerHTML=icon(iconName);
+ const list=document.querySelector('#dialog-links');
+ list.replaceChildren();
+ list.hidden=links.length===0;
+ dialog.classList.toggle('link-dialog',links.length>0);
+ links.forEach(link=>{
+  const item=document.createElement('a');
+  item.className='dialog-link';
+  item.href=link.href;
+  item.target='_blank';
+  item.rel='noopener noreferrer';
+  item.setAttribute('aria-label',link.name+' (buka di tab baru)');
+  const artwork=document.createElement('span');
+  artwork.className='dialog-link-icon';
+  artwork.innerHTML=icon(link.icon || 'link');
+  const copy=document.createElement('span');
+  copy.className='dialog-link-copy';
+  const name=document.createElement('strong');
+  name.textContent=link.name;
+  const detail=document.createElement('span');
+  detail.textContent=link.description;
+  copy.append(name,detail);
+  const arrow=document.createElement('span');
+  arrow.className='dialog-link-arrow';
+  arrow.innerHTML=icon('arrow');
+  item.append(artwork,copy,arrow);
+  list.append(item);
+ });
  dialog.showModal();
 }
 document.querySelector('#search-icon').innerHTML=icon('search');
@@ -65,7 +214,11 @@ grid.addEventListener('click',e=>{
  if(favorite){const id=favorite.dataset.favorite;const added=!favorites.includes(id);favorites=added?[...favorites,id]:favorites.filter(x=>x!==id);const persisted=storage.set('osp-favorites',favorites);render();document.querySelector(`[data-favorite="${id}"]`)?.focus({preventScroll:true});toast(persisted?(added?'Ditambahkan ke favorit di perangkat ini.':'Dihapus dari favorit.'):'Favorit diubah untuk sesi ini; penyimpanan browser tidak tersedia.');return;}
  const opener=e.target.closest('[data-open]');if(!opener)return;
  const tool=tools.find(t=>t.id===opener.dataset.open);
- openDialog({label:'DALAM RENCANA · SEGERA HADIR',title:tool.name,description:tool.detail,note:'Masih disiapkan, ya.',iconName:tool.icon});
+ if(tool.links){
+  openDialog({label:'LINK PENTING · TRIDHARMA',title:tool.name,description:tool.description,note:tool.links.length+' tautan · dibuka di tab baru',iconName:tool.icon,links:tool.links});
+ }else{
+  openDialog({label:'DALAM RENCANA · SEGERA HADIR',title:tool.name,description:tool.detail,note:'Masih disiapkan, ya.',iconName:tool.icon});
+ }
 });
 document.querySelectorAll('[data-about]').forEach(button=>button.addEventListener('click',()=>openDialog({label:'TENTANG MYOSP',title:'Tentang myOSP',description:'myOSP adalah tempat kumpul tools dan informasi untuk dosen dan tendik D3 Otomasi Sistem Permesinan, Politeknik ATI Makassar.',note:'Nggak perlu login. Favorit tersimpan di browser perangkat ini.',iconName:'sun'})));
 document.querySelector('#close-dialog').addEventListener('click',()=>dialog.close());
