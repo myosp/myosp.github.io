@@ -19,7 +19,7 @@
       if (!markdown.trim() || !markdown.startsWith('# Asisten Repo Starter Kit')) throw Error('Format prompt tidak sesuai');
       text.value = markdown;
       copy.disabled = false;
-      status.textContent = 'Siap disalin. Seluruh isi file akan disalin tanpa mengubah struktur Markdown.';
+      status.textContent = 'Siap disalin · Markdown asli tetap utuh.';
     } catch {
       status.textContent = 'Prompt belum tersedia.';
       error.hidden = false;
@@ -33,6 +33,7 @@
       try { await navigator.clipboard.writeText(text.value); copied = true; } catch { /* Use selection below. */ }
     }
     if (!copied) {
+      document.querySelector('#prompt-preview').open = true;
       text.focus();
       text.select();
       text.setSelectionRange(0, text.value.length);
@@ -40,9 +41,9 @@
     }
     clearTimeout(resetTimer);
     if (copied) {
-      copy.textContent = 'Tersalin!';
-      status.textContent = 'Prompt lengkap berhasil disalin. Tempel ke percakapan agent di repo Anda.';
-      resetTimer = setTimeout(() => { copy.textContent = 'Salin prompt'; }, 2500);
+      copy.querySelector('span').textContent = 'Tersalin!';
+      status.textContent = 'Tersalin! Tempel ke percakapan agent di repo Anda.';
+      resetTimer = setTimeout(() => { copy.querySelector('span').textContent = 'Salin prompt'; }, 2500);
     } else {
       status.textContent = 'Prompt sudah dipilih. Gunakan menu Salin di perangkat Anda atau tekan Ctrl/Cmd+C.';
     }
