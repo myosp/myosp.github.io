@@ -14,6 +14,10 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
+ {"id":"sinta-atim","name":"SINTA Score · Politeknik ATI Makassar","href":"https://sinta.kemdiktisaintek.go.id/affiliations/authors/4470","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"campus","tone":"sage","description":"Cek skor dan jejak riset dosen se-kampus."},
+ {"id":"sinta-osp","name":"SINTA Score · Otomasi Sistem Permesinan","href":"https://sinta.kemdiktisaintek.go.id/departments/authors/4470/A040E80D-C39D-4FD8-8030-A25F762D5C2E/E6F025F6-85A4-458F-B964-5C966BE5EA46","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"people","tone":"sage","description":"Intip skor dan jejak riset keluarga OSP."},
+ {"id":"panduan-penelitian-mandiri","name":"Panduan Penelitian Mandiri ATIM","href":"https://drive.google.com/file/d/1BHWlIk0aUS-ZR-_g2jUpo_2TphJ2Pkdx/view","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"document","tone":"peach","description":"Mau penelitian mandiri? Cek panduannya dulu."},
+ {"id":"jurnal-osp","name":"Jurnal OSP","href":"https://journal.atim.ac.id/index.php/jeat/login?source=%2Findex.php%2Fjeat%2Fsubmissions#unassigned","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"book","tone":"lavender","description":"Masuk ke jurnal OSP, lanjut urus naskahmu."},
  {"id":"siakad","name":"SIAKAD ATI Makassar","href":"https://siakad.atim.ac.id/","category":"tautan","group":"Tridharma · Pengajaran","external":true,"icon":"campus","tone":"sage","description":"Urusan akademik, langsung ke SIAKAD."},
  {"id":"edlink","name":"EdLink","href":"https://edlink.id/panel","category":"tautan","group":"Tridharma · Pengajaran","external":true,"icon":"book","tone":"lavender","description":"Kelas, materi, dan tugas. E-learning sat-set."},
  {id:'asisten-repo',name:'Asisten Repo Starter Kit',href:'prompt-repo.html',category:'prompt',icon:'document',tone:'lavender',description:'Siapkan asisten di repo Anda. Salin prompt · perlu fitur berbayar.'},
