@@ -4,87 +4,70 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#faf9f5">
-  <meta name="description" content="Salin Asisten Repo Starter Kit untuk menyiapkan asisten kerja persisten di repository Anda.">
+  <meta name="description" content="Siapkan asisten repo: simpan konteks, rapikan file, dan bantu susun laporan. Salin starter prompt di myOSP.">
   <title>Asisten Repo Starter Kit — myOSP</title>
   <link rel="icon" href="assets/myosp-icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="prompt-repo.css">
-  <script src="prompt-repo.js" defer></script>
+  <link rel="stylesheet" href="prompt-repo.css?v=3">
+  <script src="prompt-repo.js?v=3" defer></script>
   <script src="header.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#copy-prompt">Langsung ke salin prompt</a>
   <header class="header"><div class="wrap nav"><a class="brand" href="./" aria-label="myOSP, beranda"><img class="brand-mark" src="assets/myosp-icon.svg" alt="" width="38" height="38"><span><span class="brand-name"><b>my</b>OSP</span><span class="brand-label">Otomasi Sistem Permesinan</span></span></a><nav aria-label="Navigasi utama"><a href="./#tools">← Beranda</a></nav></div></header>
   <main class="wrap prompt-page">
-    <section aria-labelledby="prompt-title">
-      <p class="eyebrow section-index">PROMPT DEWA · STARTER KIT</p>
-      <h1 id="prompt-title">Asisten Repo<br><em>Starter Kit</em></h1>
-      <p class="prompt-intro">Ubah repo atau folder kerja menjadi asisten yang menyimpan konteks lewat file di repo. Salin prompt ini saat pertama kali menyiapkan asisten Anda.</p>
-      <aside class="prompt-requirement" aria-label="Syarat penggunaan"><strong>Syarat penggunaan: fitur berbayar.</strong><p>Gunakan akun atau akses berbayar yang mendukung agent untuk membaca dan mengubah file di repo. Menyalin prompt di myOSP tidak memerlukan login.</p></aside>
+    <section class="prompt-hero" aria-labelledby="prompt-title">
+      <div><p class="prompt-eyebrow">PROMPT DEWA · REPO PINTAR</p><h1 id="prompt-title">Asisten Repo<br><em>Starter Kit</em></h1><p class="prompt-intro">Satu folder kerja, asisten yang ingat konteks.<br>Untuk administrasi, penelitian, hingga laporan.</p><span class="paid-badge"><span aria-hidden="true">✦</span> Memerlukan akses agent berbayar</span></div>
+      <svg class="repo-art" viewBox="0 0 280 230" fill="none" aria-hidden="true">
+<circle cx="143" cy="115" r="98" fill="#f1ede4"/><path d="M65 65h40m75 0h35M65 167h40m75 0h35M65 65v102m150-102v102" stroke="#cec6b8" stroke-dasharray="4 5"/>
+<rect x="96" y="44" width="96" height="141" rx="10" fill="#f3e6db" stroke="#dfcfbe" transform="rotate(8 144 115)"/>
+<rect x="85" y="37" width="100" height="144" rx="10" fill="#fffefa" stroke="#d9d2c6"/>
+<rect x="102" y="55" width="30" height="30" rx="8" fill="#e8ecdf"/>
+<path d="m111 70 4 4 8-10" stroke="#69795b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M103 103h63m-63 14h49m-49 14h57m-57 14h33" stroke="#d6d0c5" stroke-width="4" stroke-linecap="round"/>
+<rect x="38" y="140" width="43" height="43" rx="12" fill="#ebe7f1" stroke="#d8d0e2"/>
+<path d="M50 156h8l3 3h10v14H50z" stroke="#857495" stroke-width="1.8" stroke-linejoin="round"/>
+<circle cx="210" cy="67" r="24" fill="#b45d43"/>
+<path d="M200 67h20m-10-10v20" stroke="#fffefa" stroke-width="2" stroke-linecap="round"/>
+<circle cx="201" cy="160" r="6" fill="#9baa86"/><circle cx="53" cy="83" r="4" fill="#cf795c"/>
+</svg>
     </section>
-    <section class="prompt-explainer" aria-labelledby="features-title">
-      <h2 id="features-title">Asisten ini bisa membantu apa?</h2>
-      <p class="prompt-section-intro">Setelah setup disetujui, agent bekerja mengikuti peran yang Anda tentukan, misalnya asisten penelitian, pengabdian, SKP, atau sekretaris unit.</p>
-      <dl class="prompt-features">
-        <div><dt>Melanjutkan konteks antar sesi</dt><dd>Menyimpan progres, keputusan, dan preferensi dalam file repo. Saat sesi baru dimulai, agent membaca catatan tersebut untuk melanjutkan pekerjaan.</dd></div>
-        <div><dt>Menyimpan dan merapikan file masuk</dt><dd>Saat Anda memberi lampiran atau path file yang bisa diakses agent, Auto-Ingest menyimpan salinannya di repo, membaca isi, menentukan folder dan nama standar, lalu mencatatnya di log. Jika tujuan file belum jelas, agent bertanya.</dd></div>
-        <div><dt>Menata file kerja lama</dt><dd>Agent mengusulkan struktur folder dan rencana penamaan. Pemindahan file lama dilakukan setelah Anda menyetujui rencana, dengan riwayat perubahan tetap dicatat.</dd></div>
-        <div><dt>Membantu menyusun berbagai laporan</dt><dd>Gunakan data yang tersedia untuk membuat draf laporan penelitian, pengabdian, SKP, akreditasi, notulen, atau rekap sesuai peran asisten. Jelaskan tujuan, periode, pembaca, dan template; periksa hasil sebelum dipakai resmi.</dd></div>
-        <div><dt>Mengaudit dan menyelaraskan repo</dt><dd>Prosedur <code>/sync</code> mencari duplikat, file salah tempat, nama yang tidak konsisten, antrean yang tertinggal, dan informasi usang. Agent menampilkan usulan sebelum melakukan perubahan.</dd></div>
-        <div><dt>Menyiapkan status dan serah terima</dt><dd><code>/status</code> membantu memulai sesi dengan progres dan langkah berikutnya. <code>/handoff</code> menutup sesi dengan catatan pekerjaan, keputusan, dan hal yang perlu dilanjutkan.</dd></div>
+    <section class="prompt-features" aria-label="Fungsi asisten repo">
+        <article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v4H9zM5 9h14v12H5zM9 13h6M9 17h4"/><path d="M7 5H4v4m13-4h3v4"/></svg></span><h3>Konteks tersimpan</h3><p>Lanjutkan pekerjaan tanpa mengulang cerita dari awal.</p></article>
+        <article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h7l2 3h9v12H3z"/><path d="M12 11v6m-3-3 3 3 3-3"/></svg></span><h3>File langsung rapi</h3><p>Simpan, namai, dan tempatkan file baru sesuai isinya.</p></article>
+        <article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H5v18h14V8zM14 3v5h5M9 12h6M9 16h6"/></svg></span><h3>Bantu buat laporan</h3><p>Susun draf laporan, notulen, atau rekap dari bahan di repo.</p></article>
+        <article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><h3>Status sesi</h3><p>Lihat progres, hambatan, dan langkah berikutnya.</p></article>
+        <article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h11v14H3zM7 9h3M7 13h3m5-1h6m-3-3 3 3-3 3"/></svg></span><h3>Serah terima</h3><p>Catat hasil kerja agar sesi berikutnya tinggal lanjut.</p></article>
+        <article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 9a8 8 0 0 0-14-3L3 9m0-5v5h5m-4 6a8 8 0 0 0 14 3l3-3m0 5v-5h-5"/></svg></span><h3>Audit & sinkron</h3><p>Periksa duplikat, lokasi file, dan catatan yang usang.</p></article>
+    </section>
+    <section class="setup-section" aria-labelledby="setup-title">
+      <div class="section-caption"><h2 id="setup-title">Mulai dalam 3 langkah</h2><span>Cukup sekali saat setup</span></div>
+      <ol class="setup-steps">
+        <li><span class="step-number" aria-hidden="true">01</span><div><h3>Buka folder kerja</h3><p>Hubungkan repo atau folder Anda ke tool AI.</p></div></li>
+        <li><span class="step-number" aria-hidden="true">02</span><div><h3>Salin & kirim prompt</h3><p>Tempel prompt lengkap ke percakapan agent.</p></div></li>
+        <li><span class="step-number" aria-hidden="true">03</span><div><h3>Analisis, lalu setujui</h3><p>AI membaca isi folder. Pilih peran asisten dan setujui rencananya.</p></div></li>
+      </ol>
+    </section>
+    <section class="daily-section" aria-labelledby="daily-title">
+      <h2 id="daily-title">Sesudah setup, tinggal pakai</h2>
+      <dl class="command-list">
+        <div><dt><code>/status</code></dt><dd>Mulai sesi, cek progres.</dd></div>
+        <div><dt><code>/lapor</code></dt><dd>Susun draf laporan.</dd></div>
+        <div><dt><code>/sync</code></dt><dd>Audit dan rapikan repo.</dd></div>
+        <div><dt><code>/handoff</code></dt><dd>Simpan konteks sebelum selesai.</dd></div>
       </dl>
-    </section>
-    <section class="prompt-guide" aria-labelledby="guide-title">
-      <h2 id="guide-title">Setup pertama kali</h2>
-      <ol>
-        <li>Hubungkan atau buka <strong>folder kerja Anda</strong> di Claude Code, Codex, atau tool AI yang digunakan, agar agent bisa mengakses isinya.</li>
-        <li>Tekan <strong>Salin prompt</strong>, lalu tempel dan kirim seluruh isinya ke percakapan agent di folder tersebut.</li>
-        <li>AI mulai dengan <strong>menganalisis struktur folder dan isi file kerja yang dapat diakses</strong>, tanpa mengubah apa pun. File sensitif dan file yang diabaikan sesuai aturan prompt tidak dibaca.</li>
-        <li>Dari hasil analisis, AI mengusulkan peran asisten dan rencana penataan. Jawab pertanyaannya, tentukan peran yang sesuai, lalu setujui rencana sebelum setup dijalankan.</li>
-      </ol>
-      <p class="prompt-compatibility">Dokumen ini disiapkan untuk <strong>Claude Code</strong> dan <strong>Codex</strong>. Untuk <strong>Antigravity</strong>, sesuaikan petunjuk file aturan dan cara menjalankan agent dengan fitur yang tersedia di tool tersebut.</p>
-    </section>
-    <section class="prompt-explainer" aria-labelledby="daily-title">
-      <h2 id="daily-title">Rutinitas setelah setup</h2>
-      <p class="prompt-section-intro">Starter kit cukup dijalankan sekali saat penyiapan. Pada sesi berikutnya, buka repo yang sama dan gunakan prosedur berikut.</p>
-      <div class="prompt-table-wrap" role="region" aria-labelledby="daily-title" tabindex="0">
-        <table class="prompt-table">
-          <thead><tr><th scope="col">Kapan?</th><th scope="col">Yang Anda ketik atau lakukan</th><th scope="col">Hasil yang diminta dari agent</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Mulai sesi baru</th><td><code>/status</code></td><td>Membaca status, catatan serah terima, dan perubahan terakhir; merangkum progres, hambatan, serta tiga langkah prioritas.</td></tr>
-            <tr><th scope="row">Ada file baru</th><td>Lampirkan file atau berikan path yang bisa diakses agent.</td><td>Auto-Ingest menyimpan, menganalisis, menamai, dan menempatkan file serta memperbarui log dan status. Nama yang bentrok diberi versi; file lama tidak ditimpa.</td></tr>
-            <tr><th scope="row">Menyusun laporan</th><td><code>/lapor</code>, lalu jelaskan kebutuhan. Contoh: “Buat draf laporan pengabdian semester ini berdasarkan dokumen di repo dan template yang saya berikan.”</td><td>Mengonfirmasi tujuan, periode, dan pembaca; mengumpulkan bahan; menyimpan draf di folder laporan sesuai gaya yang disepakati.</td></tr>
-            <tr><th scope="row">Audit berkala atau setelah banyak perubahan</th><td><code>/sync</code></td><td>Memeriksa kerapian file dan kesesuaian catatan kerja. Anda meninjau usulan; perubahan dilakukan setelah disetujui dan hal usang diarsipkan.</td></tr>
-            <tr><th scope="row">Sebelum menutup sesi</th><td><code>/handoff</code></td><td>Mencatat yang selesai, belum selesai, keputusan, dan langkah berikutnya; memperbarui status, memori, dan log agar sesi berikutnya bisa dilanjutkan.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="prompt-compatibility">Jika slash command tidak tersedia di tool Anda, tulis instruksinya sebagai kalimat biasa, misalnya <q>Jalankan prosedur /status di AGENTS.md</q> untuk Codex, atau rujuk <code>CLAUDE.md</code> untuk Claude Code.</p>
-    </section>
-    <section class="prompt-manual-files" aria-labelledby="manual-files-title">
-      <h2 id="manual-files-title">Kalau file dimasukkan manual?</h2>
-      <p><strong>Ada mekanismenya.</strong> Aturan starter kit meminta agent mengecek file baru yang belum tercatat di <code>INGEST_LOG.md</code> pada awal setiap sesi.</p>
-      <ol>
-        <li>Letakkan file di folder repo melalui File Explorer atau pengelola file Anda.</li>
-        <li>Saat membuka sesi baru di repo yang sama, agent diminta memeriksa file yang belum tercatat dan memprosesnya lewat Auto-Ingest. Jika sesi sudah terbuka, beri tahu agent lokasi file yang baru ditambahkan.</li>
-        <li>Untuk pemeriksaan menyeluruh, jalankan <code>/sync</code>. Tinjau usulan penamaan, lokasi, duplikat, dan catatan yang perlu diperbarui sebelum menyetujui perubahan.</li>
-      </ol>
-      <p>Sinkronisasi di sini berarti menyelaraskan file, struktur folder, dan catatan kerja di repo. Agent juga diminta mengingatkan sync jika sudah lebih dari 30 hari atau lebih dari 20 file baru sejak sync terakhir; pelaksanaannya tetap menunggu perintah Anda.</p>
-      <p><strong>Berjalan saat sesi agent aktif.</strong> Agent tidak memantau folder ketika sesi ditutup. Pemrosesan file memerlukan akses agent ke repo dan file tersebut. Satu repo menyimpan konteks satu asisten; catatan kerja pribadi tetap dijaga di repo Anda.</p>
+      <details class="guide-detail"><summary>Bagaimana kalau menambahkan file manual?</summary><div class="detail-body"><p>File yang diberikan ke agent diproses lewat <strong>Auto-Ingest</strong>: disimpan, dianalisis, diberi nama, lalu ditempatkan di folder yang sesuai.</p><p>File yang dimasukkan lewat File Explorer diperiksa pada <strong>awal sesi berikutnya</strong>. Jika sesi sedang terbuka, beri tahu agent path file-nya. Gunakan <code>/sync</code> untuk audit menyeluruh; perubahan dilakukan setelah Anda menyetujui usulannya.</p><p>Agent bekerja saat sesi aktif, bukan memantau folder ketika sesi ditutup.</p></div></details>
+      <details class="guide-detail"><summary>Tool yang didukung & contoh perintah</summary><div class="detail-body"><p>Prompt disiapkan untuk <strong>Claude Code</strong> dan <strong>Codex</strong>. Untuk Antigravity, sesuaikan file aturan dan cara menjalankan agent.</p><p>Jika slash command tidak tersedia, tulis: <q>Jalankan prosedur /status di AGENTS.md</q> (Codex), atau rujuk <code>CLAUDE.md</code> (Claude Code).</p><p>Contoh laporan: <q>Buat laporan pengabdian semester ini berdasarkan dokumen di repo.</q> Sebutkan periode dan template, lalu periksa hasilnya sebelum dipakai.</p></div></details>
     </section>
     <section class="prompt-content" aria-labelledby="content-title" aria-busy="true" id="prompt-content">
-      <div class="prompt-actions">
-        <div><h2 id="content-title">Prompt lengkap</h2><p>Markdown asli, termasuk heading, daftar, tabel, dan blok kode.</p></div>
-        <button class="primary-button" id="copy-prompt" type="button" disabled>Salin prompt</button>
-      </div>
+      <div class="prompt-actions"><div><p class="prompt-eyebrow">SIAP DIGUNAKAN</p><h2 id="content-title">Bawa ke repo Anda.</h2><p>Salin seluruh prompt. Struktur Markdown tetap utuh.</p></div><button class="primary-button" id="copy-prompt" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H5v18h14V8zM14 3v5h5M9 12h6M9 16h6"/></svg><span>Salin prompt</span></button></div>
       <p id="prompt-status" role="status" aria-live="polite">Memuat prompt…</p>
-      <div class="prompt-error" id="prompt-error" role="alert" hidden><p>Prompt belum dapat dimuat. Coba lagi atau buka file Markdown langsung.</p><button class="text-button" id="retry-prompt" type="button">Muat ulang prompt</button></div>
-      <label class="sr-only" for="prompt-text">Isi prompt dalam Markdown asli</label>
-      <textarea id="prompt-text" readonly spellcheck="false" rows="20" aria-describedby="prompt-status" placeholder="Isi prompt akan tampil di sini."></textarea>
-      <a class="text-button" href="assets/prompts/asisten-repo-starter-kit.md" download>Unduh file Markdown</a>
+      <div class="prompt-error" id="prompt-error" role="alert" hidden><p>Prompt belum dapat dimuat.</p><button class="text-button" id="retry-prompt" type="button">Muat ulang prompt</button></div>
+      <details class="prompt-preview" id="prompt-preview"><summary>Lihat isi prompt (Markdown)</summary><label class="sr-only" for="prompt-text">Isi prompt dalam Markdown asli</label><textarea id="prompt-text" readonly spellcheck="false" rows="16" aria-describedby="prompt-status"></textarea></details>
+      <a class="prompt-download" href="assets/prompts/asisten-repo-starter-kit.md" download>Unduh file .md ↗</a>
     </section>
   </main>
   <footer class="wrap footer"><div><a class="footer-brand" href="./">myOSP</a><p>D3 Otomasi Sistem Permesinan · Politeknik ATI Makassar</p></div><a class="text-button" href="./#tools">Kembali ke beranda</a></footer>
-  <noscript><p class="noscript">Aktifkan JavaScript untuk tombol salin, atau <a href="assets/prompts/asisten-repo-starter-kit.md">buka file Markdown</a> dan salin isinya.</p></noscript>
+  <noscript><p class="noscript">Untuk menyalin prompt, <a href="assets/prompts/asisten-repo-starter-kit.md">buka file Markdown</a>.</p></noscript>
 </body>
 </html>
