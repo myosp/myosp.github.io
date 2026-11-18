@@ -12,6 +12,7 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
+ {id:'asisten-repo',name:'Asisten Repo Starter Kit',href:'prompt-repo.html',category:'prompt',icon:'document',tone:'lavender',description:'Siapkan asisten di repo Anda. Salin prompt · perlu fitur berbayar.'},
  {id:'surat-izin',name:'Surat Izin Keluar (Hari Kerja)',href:'surat-izin.html',category:'administrasi',icon:'document',tone:'peach',description:'Izin keluar, sendiri atau bersama tim.'},
  {id:'surat-cuti',name:'Surat Cuti',href:'surat-cuti.html',category:'administrasi',icon:'calendar',tone:'sage',description:'Isi data, unduh PDF, atau langsung cetak.'},
  {id:'qr-generator',name:'QR Code Generator',href:'qr-generator.html',category:'utilitas',icon:'qr',tone:'lavender',description:'Ubah link jadi kode QR, lalu unduh.'},
