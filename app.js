@@ -14,6 +14,7 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
+ {"id":"panduan-pkm","name":"Panduan PKM","href":"https://drive.google.com/file/d/1Fn7PJejd6YXhX6dN12tM3JwRSUXeb8ZG/view","category":"tautan","group":"Tridharma · Pengabdian","external":true,"icon":"document","tone":"peach","description":"Mau pengabdian? Cek panduan PKM dulu, biar siap jalan."},
  {"id":"sinta-atim","name":"SINTA Score · Politeknik ATI Makassar","href":"https://sinta.kemdiktisaintek.go.id/affiliations/authors/4470","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"campus","tone":"sage","description":"Cek skor dan jejak riset dosen se-kampus."},
  {"id":"sinta-osp","name":"SINTA Score · Otomasi Sistem Permesinan","href":"https://sinta.kemdiktisaintek.go.id/departments/authors/4470/A040E80D-C39D-4FD8-8030-A25F762D5C2E/E6F025F6-85A4-458F-B964-5C966BE5EA46","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"people","tone":"sage","description":"Intip skor dan jejak riset keluarga OSP."},
  {"id":"panduan-penelitian-mandiri","name":"Panduan Penelitian Mandiri ATIM","href":"https://drive.google.com/file/d/1BHWlIk0aUS-ZR-_g2jUpo_2TphJ2Pkdx/view","category":"tautan","group":"Tridharma · Penelitian","external":true,"icon":"document","tone":"peach","description":"Mau penelitian mandiri? Cek panduannya dulu."},
