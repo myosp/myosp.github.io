@@ -1,5 +1,7 @@
 'use strict';
 const paths = {
+ campus: '<path d="m3 9 9-6 9 6H3zM5 10v9m5-9v9m4-9v9m5-9v9M3 21h18"/>',
+ book: '<path d="M12 5v16M3 4c4-1 6 0 9 2 3-2 5-3 9-2v15c-4-1-6 0-9 2-3-2-5-3-9-2z"/>',
  people: '<circle cx="9" cy="8" r="3"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 15a5 5 0 0 1 3 4v2"/>',
  arrow: '<path d="M5 19 19 5M5 5h14v14"/>',
  document: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 12h8M8 16h5"/>',
@@ -12,6 +14,8 @@ const paths = {
 };
 const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.document}</svg>`;
 const tools = [
+ {"id":"siakad","name":"SIAKAD ATI Makassar","href":"https://siakad.atim.ac.id/","category":"tautan","group":"Tridharma · Pengajaran","external":true,"icon":"campus","tone":"sage","description":"Urusan akademik, langsung ke SIAKAD."},
+ {"id":"edlink","name":"EdLink","href":"https://edlink.id/panel","category":"tautan","group":"Tridharma · Pengajaran","external":true,"icon":"book","tone":"lavender","description":"Kelas, materi, dan tugas. E-learning sat-set."},
  {id:'asisten-repo',name:'Asisten Repo Starter Kit',href:'prompt-repo.html',category:'prompt',icon:'document',tone:'lavender',description:'Siapkan asisten di repo Anda. Salin prompt · perlu fitur berbayar.'},
  {id:'surat-izin',name:'Surat Izin Keluar (Hari Kerja)',href:'surat-izin.html',category:'administrasi',icon:'document',tone:'peach',description:'Izin keluar, sendiri atau bersama tim.'},
  {id:'surat-cuti',name:'Surat Cuti',href:'surat-cuti.html',category:'administrasi',icon:'calendar',tone:'sage',description:'Isi data, unduh PDF, atau langsung cetak.'},
@@ -31,8 +35,8 @@ let toastTimer;
 function toast(message){const el=document.querySelector('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),3000);}
 function render(){
  const query=search.value.trim().toLocaleLowerCase('id');
- const shown=tools.filter(t=>(filter==='all'||(filter==='favorites'?favorites.includes(t.id):t.category===filter))&&`${t.name} ${t.category} ${t.description}`.toLocaleLowerCase('id').includes(query)).sort((a,b)=>a.name.localeCompare(b.name,'id',{sensitivity:'base',numeric:true}));
- grid.innerHTML=shown.map((t,i)=>`<article class="tool-card ${t.tone}" style="--i:${i}"><${t.href?'a':'button'} class="tool-open" ${t.href?`href="${t.href}"${t.external?' target="_blank" rel="noopener noreferrer"':''}`:`data-open="${t.id}"`} aria-label="${t.href?'Buka':'Lihat rencana'} ${t.name}${t.external?' (buka di tab baru)':''}"><div class="card-top"><span class="tool-icon">${icon(t.icon)}</span><span class="category-label">${t.category==='utilitas'?'Tools':t.category==='informasi'?'Data & Info':t.category==='tautan'?'Link Penting':t.category==='prompt'?'PROMPT DEWA':t.category}</span></div><h3>${t.name}${t.external?` <span class="external-indicator" aria-hidden="true">${icon('arrow')}</span>`:''}</h3><p>${t.description}</p></${t.href?'a':'button'}><button class="favorite-button" data-favorite="${t.id}" aria-label="Favorit ${t.name}" aria-pressed="${favorites.includes(t.id)}" title="Simpan sebagai favorit">${icon('star')}</button></article>`).join('');
+ const shown=tools.filter(t=>(filter==='all'||(filter==='favorites'?favorites.includes(t.id):t.category===filter))&&`${t.name} ${t.category} ${t.group || ''} ${t.description}`.toLocaleLowerCase('id').includes(query)).sort((a,b)=>a.name.localeCompare(b.name,'id',{sensitivity:'base',numeric:true}));
+ grid.innerHTML=shown.map((t,i)=>`<article class="tool-card ${t.tone}" style="--i:${i}"><${t.href?'a':'button'} class="tool-open" ${t.href?`href="${t.href}"${t.external?' target="_blank" rel="noopener noreferrer"':''}`:`data-open="${t.id}"`} aria-label="${t.href?'Buka':'Lihat rencana'} ${t.name}${t.external?' (buka di tab baru)':''}"><div class="card-top"><span class="tool-icon">${icon(t.icon)}</span><span class="category-label">${t.group || (t.category==='utilitas'?'Tools':t.category==='informasi'?'Data & Info':t.category==='tautan'?'Link Penting':t.category==='prompt'?'PROMPT DEWA':t.category)}</span></div><h3>${t.name}${t.external?` <span class="external-indicator" aria-hidden="true">${icon('arrow')}</span>`:''}</h3><p>${t.description}</p></${t.href?'a':'button'}><button class="favorite-button" data-favorite="${t.id}" aria-label="Favorit ${t.name}" aria-pressed="${favorites.includes(t.id)}" title="Simpan sebagai favorit">${icon('star')}</button></article>`).join('');
  document.querySelector('#result-count').textContent=`${shown.length} pilihan`;
  const empty=document.querySelector('#empty-state');empty.hidden=shown.length>0;
  empty.querySelector('h3').textContent=filter==='favorites'&&!query?'Belum ada favorit.':filter==='tautan'&&!query?'Belum ada link penting.':filter==='prompt'&&!query?'Belum ada prompt.':'Belum ketemu nih.';
